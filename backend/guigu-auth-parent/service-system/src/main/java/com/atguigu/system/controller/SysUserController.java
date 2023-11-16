@@ -40,7 +40,7 @@ public class SysUserController {
         HashMap<String, Object> map = new HashMap<>();
         map.put("roles", "[admin]");
         map.put("introduction", "I am a super administrator");
-        map.put("avatar", "http://r61cnlsfq.hn-bkt.clouddn.com/7daa4595-dfde-45da-8513-c5c2b81d20cc");
+        map.put("avatar", "https://oss.youlai.tech/youlai-boot/2023/05/16/811270ef31f548af9cffc026dfc3777b.gif");
         map.put("name", "super admin");
         return Result.ok(map);
     }

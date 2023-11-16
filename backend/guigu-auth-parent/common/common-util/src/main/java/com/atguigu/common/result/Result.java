@@ -8,26 +8,26 @@ public class Result <T>{
 
     private String code;
     private String msg;
-    private T payload;
+    private T data;
 
 
     // 返回数据
-    protected static <T> Result<T> build(T payload) {
+    protected static <T> Result<T> build(T data) {
         Result<T> result = new Result<T>();
-        if (payload != null)
-            result.setPayload(payload);
+        if (data != null)
+            result.setData(data);
         return result;
     }
 
-    public static <T> Result<T> build(T payload, String code, String msg) {
-        Result<T> result = build(payload);
+    public static <T> Result<T> build(T data, String code, String msg) {
+        Result<T> result = build(data);
         result.setCode(code);
         result.setMsg(msg);
         return result;
     }
 
-    public static <T> Result<T> build(T payload, ResultCodeEnum resultCodeEnum) {
-        Result<T> result = build(payload);
+    public static <T> Result<T> build(T data, ResultCodeEnum resultCodeEnum) {
+        Result<T> result = build(data);
         result.setCode(resultCodeEnum.getCode());
         result.setMsg(resultCodeEnum.getMessage());
         return result;

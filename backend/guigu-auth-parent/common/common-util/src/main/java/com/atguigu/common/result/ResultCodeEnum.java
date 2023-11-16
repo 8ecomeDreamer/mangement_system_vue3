@@ -13,13 +13,19 @@ public enum ResultCodeEnum {
     REPEAT_SUBMIT("206", "重复提交"),
     ARGUMENT_VALID_ERROR("210", "参数校验异常"),
 
+
+
     LOGIN_AUTH("208", "未登陆"),
     PERMISSION("209", "没有权限"),
     ACCOUNT_ERROR("214", "账号不正确"),
     PASSWORD_ERROR("215", "密码不正确"),
     LOGIN_MOBLE_ERROR( "216", "账号不正确"),
     ACCOUNT_STOP( "217", "账号已停用"),
-    NODE_ERROR( "218", "该节点下有子节点，不可以删除");
+    NODE_ERROR( "218", "该节点下有子节点，不可以删除"),
+
+
+    ARGUMENT_ERROR("400", "参数校验异常")
+    ;
 
     private String code;
 

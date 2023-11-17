@@ -26,16 +26,15 @@ public class SysRoleController {
     @ApiOperation("查询所有用户权限记录")
     @GetMapping("findAll")
     public Result findAllRole(){
-//        模拟自定义异常
-        try{
-//        模拟ArithmeticException异常
-            int i = 9 / 0;
-            List<SysRole> list = sysRoleService.list();
-            return Result.ok(list);
-        }catch (Exception e){
-            throw new SelfException("20001","这里是自定义异常");
-        }
-
+////        模拟自定义异常
+//        try{
+////        模拟ArithmeticException异常
+//            int i = 9 / 0;
+//        }catch (Exception e){
+//            throw new SelfException("20001","这里是自定义异常");
+//        }
+        List<SysRole> list = sysRoleService.list();
+        return Result.ok(list);
     }
 
 

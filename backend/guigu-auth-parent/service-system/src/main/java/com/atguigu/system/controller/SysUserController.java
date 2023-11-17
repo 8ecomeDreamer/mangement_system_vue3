@@ -1,8 +1,10 @@
 package com.atguigu.system.controller;
 
 import com.atguigu.common.result.Result;
+import com.atguigu.model.system.SysRole;
 import com.atguigu.model.system.SysUser;
 import com.atguigu.model.vo.LoginVo;
+import com.atguigu.model.vo.SysUserQueryVo;
 import com.atguigu.system.service.SysRoleService;
 import com.atguigu.system.service.SysUserService;
 import io.swagger.annotations.ApiOperation;
@@ -43,5 +45,13 @@ public class SysUserController {
         map.put("avatar", "https://oss.youlai.tech/youlai-boot/2023/05/16/811270ef31f548af9cffc026dfc3777b.gif");
         map.put("name", "super admin");
         return Result.ok(map);
+    }
+
+
+    @ApiOperation("查询所有用户信息")
+    @GetMapping("findUsers")
+    public Result findAllRole(@RequestBody SysUserQueryVo sysUserQueryVo){
+        List<SysUser> list = sysUserService.findUsers(sysUserQueryVo);
+        return Result.ok(list);
     }
 }

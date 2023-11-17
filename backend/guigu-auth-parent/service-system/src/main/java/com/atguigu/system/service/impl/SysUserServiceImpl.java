@@ -4,6 +4,7 @@ import com.atguigu.common.result.Result;
 import com.atguigu.common.result.ResultCodeEnum;
 import com.atguigu.model.system.SysUser;
 import com.atguigu.model.vo.LoginVo;
+import com.atguigu.model.vo.SysUserQueryVo;
 import com.atguigu.system.mapper.SysUserMapper;
 import com.atguigu.system.service.SysUserService;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
@@ -12,6 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.DigestUtils;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 @Service
 public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> implements SysUserService{
@@ -45,6 +47,15 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 //        3.密码相等返回用户信息 看情况是否脱敏
         Result.build(sysUser,ResultCodeEnum.PASSWORD_ERROR);
         return result;
+    }
+
+    /**
+     * 查询所有用户信息
+     * @param sysUserQueryVo 用户查询信息
+     */
+    @Override
+    public List<SysUser> findUsers(SysUserQueryVo sysUserQueryVo) {
+        return sysUserMapper.selectList(null);
     }
 
 }

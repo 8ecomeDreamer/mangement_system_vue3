@@ -132,6 +132,7 @@
 //   UserChangeDept
 // } from '../../api/userMG'
 import Pagination from '@/components/Pagination.vue'
+import { selectUserInfo } from '@/api/user'
 export default {
   data() {
     return {
@@ -248,12 +249,21 @@ export default {
    */
   created() {
     this.getdata(this.formInline)
+    this.fetchData()
   },
 
   /**
    * 里面的方法只有被调用才会执行
    */
   methods: {
+    fetchData(){
+      const data = {
+        name:''
+      }
+      selectUserInfo(data).then(res => {
+        console.log(res)
+      })
+    },
     // 获取数据方法
     getdata(parameter) {
       this.loading = true

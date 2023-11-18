@@ -54,8 +54,8 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
      * @param sysUserQueryVo 用户查询信息
      */
     @Override
-    public List<SysUser> findUsers(SysUserQueryVo sysUserQueryVo) {
-        return sysUserMapper.selectList(null);
+    public List<SysUser> selectUserInfo(SysUserQueryVo sysUserQueryVo) {
+        return sysUserMapper.selectUserInfo(sysUserQueryVo);
     }
 
 }

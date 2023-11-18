@@ -10,5 +10,6 @@ import java.util.List;
 
 public interface SysUserService extends IService<SysUser> {
     Result login(LoginVo loginVo);
-    List<SysUser> findUsers(SysUserQueryVo sysUserQueryVo);
+
+    List<SysUser> selectUserInfo(SysUserQueryVo sysUserQueryVo);
 }

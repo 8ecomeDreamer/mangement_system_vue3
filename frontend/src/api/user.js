@@ -22,3 +22,16 @@ export function logout() {
     method: 'post'
   })
 }
+
+/**
+ * @description 查询所有信息
+ * @returns {*}
+ * @param data
+ */
+export function selectUserInfo(data) {
+  return request({
+    url: '/admin/system/user/selectUserInfo',
+    method: 'post',
+    data
+  })
+}

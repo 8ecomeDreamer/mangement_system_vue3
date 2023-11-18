@@ -49,9 +49,9 @@ public class SysUserController {
 
 
     @ApiOperation("查询所有用户信息")
-    @GetMapping("findUsers")
+    @PostMapping("selectUserInfo")
     public Result findAllRole(@RequestBody SysUserQueryVo sysUserQueryVo){
-        List<SysUser> list = sysUserService.findUsers(sysUserQueryVo);
+        List<SysUser> list = sysUserService.selectUserInfo(sysUserQueryVo);
         return Result.ok(list);
     }
 }

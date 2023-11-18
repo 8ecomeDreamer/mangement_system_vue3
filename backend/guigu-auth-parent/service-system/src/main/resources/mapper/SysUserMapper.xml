@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.atguigu.system.mapper.SysUserMapper">
+
+    <!--    @Result(property = "orderDate", column = "下单日期"),-->
+    <!--    @Result(property = "salesman", column = "业务员"),-->
+    <!--    @Result(property = "group", column = "组别"),-->
+    <!--    @Result(property = "orderNo", column = "订单号"),-->
+    <!--    @Result(property = "productCategory", column = "生产类型"),-->
+    <!--    @Result(property = "isExportOrder", column = "是否出口单"),-->
+    <!--    @Result(property = "orderStatus", column = "订单状态"),-->
+    <!--    @Result(property = "customerNo", column = "客户编号"),-->
+    <!--    @Result(property = "brandNo", column = "品牌代码"),-->
+    <!--    @Result(property = "groupNo", column = "集团代码"),-->
+    <!--    @Result(property = "categoryNo", column = "类别码"),-->
+    <!--    @Result(property = "materialNo", column = "物料编号"),-->
+    <!--    @Result(property = "materialName", column = "物料名称"),-->
+    <!--    @Result(property = "color", column = "颜色"),-->
+    <!--    @Result(property = "weft", column = "纬密"),-->
+    <!--    @Result(property = "orderQuantity", column = "订单数量"),-->
+    <!--    @Result(property = "orderQuantityM", column = "订单数量(M)"),-->
+    <!--    @Result(property = "deliveryDetail", column = "交期明细"),-->
+
+
+<!--    <resultMap id="orderFullStateMap" type="com.example.demo.entity.ERP.OrderFullState">-->
+<!--        <id property="uGUID" column="uGUID"/>-->
+<!--        <result property="totalRecord" column="totalRecord" />-->
+<!--        <result property="ummMaterialGUID" column="ummMaterialGUID"/>-->
+<!--        <result property="upbCustomerGUID" column="upbCustomerGUID"/>-->
+<!--        <result property="orderDate" column="下单日期" jdbcType="DATE"/>-->
+<!--        <result property="salesman" column="业务员"/>-->
+<!--        <result property="group" column="组别"/>-->
+<!--        <result property="orderNo" column="订单号"/>-->
+<!--        <result property="productCategory" column="生产类型"/>-->
+<!--        <result property="isExportOrder" column="是否出口单"/>-->
+<!--        <result property="orderStatus" column="订单状态"/>-->
+<!--        <result property="customerNo" column="客户编号"/>-->
+<!--        <result property="brandNo" column="品牌代码"/>-->
+<!--        <result property="groupNo" column="集团代码"/>-->
+<!--        <result property="categoryNo" column="类别码"/>-->
+<!--        <result property="materialNo" column="物料编号"/>-->
+<!--        <result property="materialName" column="物料名称"/>-->
+<!--        <result property="color" column="颜色"/>-->
+<!--        <result property="sYwRemarkLi" column="sYwRemarkLi"/>-->
+<!--        &lt;!&ndash;        <result property="weft" column="纬密"/>&ndash;&gt;-->
+<!--        <result property="orderQuantity" column="订单数量"/>-->
+<!--        <result property="orderQuantityM" column="订单数量(M)"/>-->
+<!--        <result property="deliveryDetail" column="交期明细"/>-->
+<!--    </resultMap>-->
+
+
+    <!--
+           desc: 查询所有信息
+           date: 2023-11-18
+     -->
+    <select id="selectUserInfo" resultType="com.atguigu.model.system.SysUser">
+        select
+        name,
+        phone,
+        description
+        from sys_user
+        <where>
+             is_deleted == 0
+            <if test="entity.name != null and entity.name != '' ">
+                and name=#{entity.name}
+            </if>
+<!--            <if test="entity.deptId != null">-->
+<!--                and sUsername=#{entity.deptId}-->
+<!--            </if>-->
+<!--            <if test="entity.postId != null">-->
+<!--                and sUsername=#{entity.postId}-->
+<!--            </if>-->
+        </where>
+    </select>
+
+    <!--
+         desc: 添加用户信息
+         date: 2023-11-18
+   -->
+
+    <!--
+           desc: 编辑用户信息
+           date: 2023-11-18
+     -->
+<!--    <select id="selectByOrderNo">-->
+<!--        exec [erp].[dberp].dbo.spapp_sale_QueryOrderFullstateDetail #{vo.orderNo},#{vo.iType}-->
+<!--    </select>-->
+
+    <!--
+         desc: 删除用户信息
+         date: 2023-11-18
+   -->
+
+
+</mapper>

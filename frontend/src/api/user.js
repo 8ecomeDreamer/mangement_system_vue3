@@ -35,3 +35,31 @@ export function selectUserInfo(data) {
     data
   })
 }
+
+
+export function insertUserInfo(data) {
+  return request({
+    url: '/admin/system/user/insertUserInfo',
+    method: 'post',
+    data
+  })
+}
+
+
+export function updateUserInfo(data) {
+  return request({
+    url: '/admin/system/user/updateUserInfo',
+    method: 'post',
+    data
+  })
+}
+
+
+export function deleteUserInfo(data) {
+  return request({
+    url: '/admin/system/user/deleteUserInfo',
+    method: 'post',
+    data
+  })
+}
+

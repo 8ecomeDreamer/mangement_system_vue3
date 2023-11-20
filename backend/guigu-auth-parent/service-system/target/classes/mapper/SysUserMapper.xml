@@ -50,6 +50,21 @@
 <!--        <result property="deliveryDetail" column="交期明细"/>-->
 <!--    </resultMap>-->
 
+<!--    <sql id="baseColumn">-->
+<!--    id,-->
+<!--    username,-->
+<!--    name,-->
+<!--    phone,-->
+<!--    head_url,-->
+<!--    dept_id,-->
+<!--    post_id,-->
+<!--    description,-->
+<!--    status,-->
+<!--    create_time,-->
+<!--    update_time-->
+<!--        -->
+<!--    </sql>-->
+
 
     <!--
            desc: 查询所有信息
@@ -57,41 +72,74 @@
      -->
     <select id="selectUserInfo" resultType="com.atguigu.model.system.SysUser">
         select
-        name,
-        phone,
-        description
+            id,
+            username,
+            name,
+            phone,
+            head_url,
+            dept_id,
+            post_id,
+            description,
+            status,
+            create_time,
+            update_time
         from sys_user
         <where>
-             is_deleted == 0
+            is_deleted = 0
             <if test="entity.name != null and entity.name != '' ">
-                and name=#{entity.name}
+                and name like CONCAT('%',  #{entity.name} , '%')
             </if>
-<!--            <if test="entity.deptId != null">-->
-<!--                and sUsername=#{entity.deptId}-->
-<!--            </if>-->
-<!--            <if test="entity.postId != null">-->
-<!--                and sUsername=#{entity.postId}-->
-<!--            </if>-->
+            <if test="entity.userName != null and entity.userName != '' ">
+                and username like CONCAT('%',  #{entity.userName} , '%')
+            </if>
+            <if test="entity.deptId != null and entity.deptId != '' ">
+                and dept_id like CONCAT('%',  #{entity.deptId} , '%')
+            </if>
+            <if test="entity.postId != null and entity.postId != '' ">
+                and post_id like CONCAT('%',  #{entity.postId} , '%')
+            </if>
         </where>
+        limit  #{entity.page},#{entity.limit}
     </select>
+
 
     <!--
          desc: 添加用户信息
          date: 2023-11-18
    -->
+    <insert id="insertUserInfo">
+        insert into sys_user (username,name,phone,description,dept_id,post_id)
+        values ( #{SysUserMergeVo.userName},#{SysUserMergeVo.name},#{SysUserMergeVo.phone},#{SysUserMergeVo.description},#{SysUserMergeVo.deptId},#{SysUserMergeVo.postId} )
+    </insert>
+
 
     <!--
-           desc: 编辑用户信息
-           date: 2023-11-18
-     -->
-<!--    <select id="selectByOrderNo">-->
-<!--        exec [erp].[dberp].dbo.spapp_sale_QueryOrderFullstateDetail #{vo.orderNo},#{vo.iType}-->
-<!--    </select>-->
+       desc: 编辑用户信息
+       date: 2023-11-18
+ -->
+
+
+    <update id="updateUserInfo" >
+        UPDATE sys_user
+        SET
+            username = #{SysUserMergeVo.userName}, name = #{SysUserMergeVo.name}, phone = #{SysUserMergeVo.phone}, description = #{SysUserMergeVo.description}, dept_id = #{SysUserMergeVo.deptId}, post_id = #{SysUserMergeVo.postId}
+        WHERE id = #{id}
+    </update>
+
 
     <!--
-         desc: 删除用户信息
-         date: 2023-11-18
-   -->
+     desc: 删除用户信息
+     date: 2023-11-18
+-->
+
+    <update id="deleteUserInfo" >
+        UPDATE sys_user
+        SET is_deleted = 1
+        WHERE id IN
+        <foreach collection="deleteIds" item="id" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </update>
 
 
 </mapper>

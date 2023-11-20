@@ -4,11 +4,13 @@ import com.atguigu.common.result.Result;
 import com.atguigu.common.result.ResultCodeEnum;
 import com.atguigu.model.system.SysUser;
 import com.atguigu.model.vo.LoginVo;
+import com.atguigu.model.vo.SysUserMergeVo;
 import com.atguigu.model.vo.SysUserQueryVo;
 import com.atguigu.system.mapper.SysUserMapper;
 import com.atguigu.system.service.SysUserService;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Service;
 import org.springframework.util.DigestUtils;
 
@@ -57,5 +59,25 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
     public List<SysUser> selectUserInfo(SysUserQueryVo sysUserQueryVo) {
         return sysUserMapper.selectUserInfo(sysUserQueryVo);
     }
+
+    @Override
+    public int insertUserInfo(SysUserMergeVo sysUserMergeVo) {
+//        如果前端没有传则为其补全数据
+
+        return sysUserMapper.insertUserInfo(sysUserMergeVo);
+    }
+
+    @Override
+    public int updateUserInfo(SysUserMergeVo sysUserQueryVo) {
+//        如果前端没有传则为其补全数据
+
+        return sysUserMapper.updateUserInfo(sysUserQueryVo);
+    }
+
+    @Override
+    public int deleteUserInfo(List<String> deleteIds) {
+        return sysUserMapper.deleteBatchIds(deleteIds);
+    }
+
 
 }

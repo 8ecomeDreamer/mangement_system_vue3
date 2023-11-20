@@ -8,6 +8,7 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
+import java.util.Date;
 import java.util.List;
 
 @Data
@@ -17,12 +18,17 @@ public class SysUser extends BaseEntity {
 	
 	private static final long serialVersionUID = 1L;
 
+	@ApiModelProperty(value = "id")
+	@TableField(value = "id", update = "false")
+	private String id;
+
 	@ApiModelProperty(value = "用户名")
 	@TableField("username")
 	private String username;
 
+//	非必要不查密码
 	@ApiModelProperty(value = "密码")
-	@TableField("password")
+	@TableField(value = "password", select = false)
 	private String password;
 
 	@ApiModelProperty(value = "姓名")
@@ -39,11 +45,11 @@ public class SysUser extends BaseEntity {
 
 	@ApiModelProperty(value = "部门id")
 	@TableField("dept_id")
-	private Long deptId;
+	private String deptId;
 
 	@ApiModelProperty(value = "岗位id")
 	@TableField("post_id")
-	private Long postId;
+	private String postId;
 
 	@ApiModelProperty(value = "描述")
 	@TableField("description")
@@ -61,5 +67,12 @@ public class SysUser extends BaseEntity {
 	//部门
 	@TableField(exist = false)
 	private String deptName;
+
+	//创建时间
+	@TableField("create_time")
+	private Date createTime;
+	//更新时间
+	@TableField("update_time")
+	private Date updateTime;
 }
 

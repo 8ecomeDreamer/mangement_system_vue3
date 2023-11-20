@@ -1,11 +1,11 @@
 package com.atguigu.system.controller;
 
 import com.atguigu.common.result.Result;
-import com.atguigu.model.system.SysRole;
+import com.atguigu.common.result.ResultCodeEnum;
 import com.atguigu.model.system.SysUser;
 import com.atguigu.model.vo.LoginVo;
+import com.atguigu.model.vo.SysUserMergeVo;
 import com.atguigu.model.vo.SysUserQueryVo;
-import com.atguigu.system.service.SysRoleService;
 import com.atguigu.system.service.SysUserService;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.*;
@@ -50,8 +50,44 @@ public class SysUserController {
 
     @ApiOperation("查询所有用户信息")
     @PostMapping("selectUserInfo")
-    public Result findAllRole(@RequestBody SysUserQueryVo sysUserQueryVo){
+    public Result selectUserInfo(@RequestBody SysUserQueryVo sysUserQueryVo){
         List<SysUser> list = sysUserService.selectUserInfo(sysUserQueryVo);
         return Result.ok(list);
     }
+
+    @ApiOperation("添加所有用户信息")
+    @PostMapping("insertUserInfo")
+    public Result insertUserInfo(@RequestBody SysUserMergeVo sysUserMergeVo) {
+        int flag = sysUserService.insertUserInfo(sysUserMergeVo);
+        if(flag > 0){
+            return Result.ok();
+        }
+        return Result.fail();
+    }
+
+    @ApiOperation("更新所有用户信息")
+    @PostMapping("updateUserInfo/{updataId}")
+    public Result updateUserInfo(@RequestBody SysUserMergeVo sysUserMergeVo) {
+        int flag = sysUserService.updateUserInfo(sysUserMergeVo);
+        if(flag > 0){
+            return Result.ok();
+        }
+        return Result.fail();
+    }
+
+
+    @ApiOperation("删除所有用户信息")
+    @PostMapping("deleteUserInfo}")
+    public Result deleteUserInfo(@RequestBody List<String> deleteIds) {
+        System.out.println(deleteIds);
+        if (deleteIds.isEmpty()){
+            return Result.build(null, ResultCodeEnum.SELECT_DATA_ERROR);
+        }
+        int flag = sysUserService.deleteUserInfo(deleteIds);
+        if(flag > 0){
+            return Result.ok();
+        }
+        return Result.fail();
+    }
+
 }

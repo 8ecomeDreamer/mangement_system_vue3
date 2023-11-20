@@ -24,7 +24,9 @@ public enum ResultCodeEnum {
     NODE_ERROR( "218", "该节点下有子节点，不可以删除"),
 
 
-    ARGUMENT_ERROR("400", "参数校验异常")
+    ARGUMENT_ERROR("400", "参数校验异常"),
+    SELECT_DATA_ERROR("40001", "请选择需要操作的数据")
+
     ;
 
     private String code;

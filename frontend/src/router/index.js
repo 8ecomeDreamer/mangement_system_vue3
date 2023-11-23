@@ -73,10 +73,16 @@ export const constantRoutes = [
       },
       {
         path: 'sysRole',
-        component: () => import('@/views/system/sysRole.vue'),
+        component: () => import('@/views/system/sysMenu.vue'),
         name: 'SysRole',
-        meta: { title: '角色管理' }
-      }
+        meta: { title: '菜单管理' }
+      },
+      // {
+      //   path: 'sysRole',
+      //   component: () => import('@/views/system/sysRole.vue'),
+      //   name: 'SysRole',
+      //   meta: { title: '角色管理' }
+      // }
       // {
       //   path: 'menu1',
       //   component: () => import('@/views/nested/menu1/index'), // Parent router-view

@@ -5,8 +5,11 @@ import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import io.swagger.models.auth.In;
 import lombok.Data;
 
+import java.sql.Timestamp;
+import java.util.Date;
 import java.util.List;
 
 @Data
@@ -15,6 +18,10 @@ import java.util.List;
 public class SysMenu extends BaseEntity {
 	
 	private static final long serialVersionUID = 1L;
+
+	@ApiModelProperty(value = "id")
+	@TableField("id")
+	private String id;
 
 	@ApiModelProperty(value = "所属上级")
 	@TableField("parent_id")
@@ -58,5 +65,17 @@ public class SysMenu extends BaseEntity {
 	//是否选中
 	@TableField(exist = false)
 	private boolean isSelect;
+
+	//创建时间
+	@TableField("create_time")
+	private Timestamp createTime;
+
+	//更新时间
+	@TableField("update_time")
+	private Timestamp updateTime;
+
+	//删除标记
+	@TableField("is_deleted")
+	private Integer isDeleted;
 }
 

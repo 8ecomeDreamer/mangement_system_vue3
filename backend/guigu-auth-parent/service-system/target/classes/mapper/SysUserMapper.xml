@@ -2,8 +2,7 @@
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.atguigu.system.mapper.SysUserMapper">
-
+<mapper namespace="com.atguigu.system.mapper.SysUserMapper" >
     <!--    @Result(property = "orderDate", column = "下单日期"),-->
     <!--    @Result(property = "salesman", column = "业务员"),-->
     <!--    @Result(property = "group", column = "组别"),-->
@@ -65,7 +64,6 @@
 <!--        -->
 <!--    </sql>-->
 
-
     <!--
            desc: 查询所有信息
            date: 2023-11-18
@@ -102,30 +100,75 @@
         limit  #{entity.page},#{entity.limit}
     </select>
 
-
     <!--
          desc: 添加用户信息
          date: 2023-11-18
    -->
     <insert id="insertUserInfo">
-        insert into sys_user (username,name,phone,description,dept_id,post_id)
-        values ( #{SysUserMergeVo.userName},#{SysUserMergeVo.name},#{SysUserMergeVo.phone},#{SysUserMergeVo.description},#{SysUserMergeVo.deptId},#{SysUserMergeVo.postId} )
+        insert into
+            sys_user
+            (username,name
+            <if test="SysUserMergeVo.phone != null and SysUserMergeVo.phone != ''">
+                ,phone
+            </if>
+            <if test="SysUserMergeVo.description != null and SysUserMergeVo.description != ''">
+                ,description
+            </if>
+            <if test="SysUserMergeVo.deptId != null and SysUserMergeVo.deptId != ''">
+                ,dept_id
+            </if>
+            <if test="SysUserMergeVo.postId != null and SysUserMergeVo.postId != ''">
+                ,post_id
+            </if>
+             )
+        values
+            (
+             #{SysUserMergeVo.userName},
+             #{SysUserMergeVo.name}
+            <if test="SysUserMergeVo.userName != null and SysUserMergeVo.userName != ''">
+                ,#{SysUserMergeVo.phone}
+            </if>
+            <if test="SysUserMergeVo.description != null and SysUserMergeVo.description != ''">
+                ,#{SysUserMergeVo.description},
+            </if>
+            <if test="SysUserMergeVo.deptId != null and SysUserMergeVo.deptId != ''">
+                , #{SysUserMergeVo.deptId}
+            </if>
+            <if test="SysUserMergeVo.postId != null and SysUserMergeVo.postId != ''">
+                , #{SysUserMergeVo.postId}
+            </if>
+             )
     </insert>
 
-
     <!--
-       desc: 编辑用户信息
+       desc: 更新用户信息
        date: 2023-11-18
  -->
 
-
     <update id="updateUserInfo" >
         UPDATE sys_user
-        SET
-            username = #{SysUserMergeVo.userName}, name = #{SysUserMergeVo.name}, phone = #{SysUserMergeVo.phone}, description = #{SysUserMergeVo.description}, dept_id = #{SysUserMergeVo.deptId}, post_id = #{SysUserMergeVo.postId}
-        WHERE id = #{id}
+        <set>
+            <if test="SysUserMergeVo.userName != null and SysUserMergeVo.userName != ''">
+                username = #{SysUserMergeVo.userName},
+            </if>
+            <if test="SysUserMergeVo.name != null and SysUserMergeVo.name != ''">
+                name = #{SysUserMergeVo.name},
+            </if>
+            <if test="SysUserMergeVo.phone != null and SysUserMergeVo.phone != ''">
+                phone = #{SysUserMergeVo.phone},
+            </if>
+            <if test="SysUserMergeVo.description != null and SysUserMergeVo.description != ''">
+                description = #{SysUserMergeVo.description},
+            </if>
+            <if test="SysUserMergeVo.deptId != null and SysUserMergeVo.deptId != ''">
+                dept_id = #{SysUserMergeVo.deptId},
+            </if>
+            <if test="SysUserMergeVo.postId != null and SysUserMergeVo.postId != ''">
+                post_id = #{SysUserMergeVo.postId}
+            </if>
+        </set>
+        WHERE id = #{SysUserMergeVo.id}
     </update>
-
 
     <!--
      desc: 删除用户信息
@@ -140,6 +183,5 @@
             #{id}
         </foreach>
     </update>
-
 
 </mapper>

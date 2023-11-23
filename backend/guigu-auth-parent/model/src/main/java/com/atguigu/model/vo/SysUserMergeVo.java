@@ -14,6 +14,8 @@ public class SysUserMergeVo implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
+    private String id;
+
     private String userName;
 
     private String name;

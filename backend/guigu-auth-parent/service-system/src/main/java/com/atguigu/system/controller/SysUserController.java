@@ -66,7 +66,7 @@ public class SysUserController {
     }
 
     @ApiOperation("更新所有用户信息")
-    @PostMapping("updateUserInfo/{updataId}")
+    @PostMapping("updateUserInfo")
     public Result updateUserInfo(@RequestBody SysUserMergeVo sysUserMergeVo) {
         int flag = sysUserService.updateUserInfo(sysUserMergeVo);
         if(flag > 0){
@@ -77,7 +77,7 @@ public class SysUserController {
 
 
     @ApiOperation("删除所有用户信息")
-    @PostMapping("deleteUserInfo}")
+    @PostMapping("deleteUserInfo")
     public Result deleteUserInfo(@RequestBody List<String> deleteIds) {
         System.out.println(deleteIds);
         if (deleteIds.isEmpty()){

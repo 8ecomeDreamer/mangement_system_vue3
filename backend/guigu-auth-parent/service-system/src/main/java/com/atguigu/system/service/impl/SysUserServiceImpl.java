@@ -63,21 +63,18 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
     @Override
     public int insertUserInfo(SysUserMergeVo sysUserMergeVo) {
 //        如果前端没有传则为其补全数据
-
         return sysUserMapper.insertUserInfo(sysUserMergeVo);
     }
 
     @Override
     public int updateUserInfo(SysUserMergeVo sysUserQueryVo) {
 //        如果前端没有传则为其补全数据
-
         return sysUserMapper.updateUserInfo(sysUserQueryVo);
     }
 
     @Override
     public int deleteUserInfo(List<String> deleteIds) {
-        return sysUserMapper.deleteBatchIds(deleteIds);
+        return sysUserMapper.deleteUserInfo(deleteIds);
     }
-
 
 }

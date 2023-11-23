@@ -5,29 +5,32 @@
   <div style="padding: 0 10px;">
     <!-- 搜索筛选 -->
     <el-form :inline="true" :model="formInline" class="user-search"  style="display: flex;justify-content: center;align-items: center;">
-<!--      <el-form-item label="搜索：">-->
-<!--        <el-select size="small" v-model="formInline.isNoDeleted" placeholder="请选择">-->
-<!--          <el-option label="全部" value=""></el-option>-->
-<!--          <el-option label="" value=""></el-option>-->
-<!--          <el-option label="" value=""></el-option>-->
-<!--        </el-select>-->
-<!--      </el-form-item>-->
+      <!--      <el-form-item label="搜索：">-->
+      <!--        <el-select size="small" v-model="formInline.isNoDeleted" placeholder="请选择">-->
+      <!--          <el-option label="全部" value=""></el-option>-->
+      <!--          <el-option label="" value=""></el-option>-->
+      <!--          <el-option label="" value=""></el-option>-->
+      <!--        </el-select>-->
+      <!--      </el-form-item>-->
       <el-form-item label="" >
-        <el-input size="small" clearable v-model="formInline.userName" placeholder="输入用户名" ></el-input>
+        <el-input size="small" clearable v-model="formInline.parentId" placeholder="输入上级路由" ></el-input>
       </el-form-item>
       <el-form-item label="">
-        <el-input size="small" clearable v-model="formInline.name" placeholder="输入真实姓名"></el-input>
+        <el-input size="small" clearable v-model="formInline.name" placeholder="输入路由名称"></el-input>
       </el-form-item>
       <el-form-item label="">
-        <el-input size="small" clearable v-model="formInline.deptId" placeholder="输入部门id"></el-input>
+        <el-input size="small" clearable v-model="formInline.type" placeholder="输入路由类型"></el-input>
       </el-form-item>
       <el-form-item label="">
-        <el-input size="small" clearable v-model="formInline.postId" placeholder="输入岗位id"></el-input>
+        <el-input size="small" clearable v-model="formInline.path" placeholder="输入路由地址"></el-input>
+      </el-form-item>
+      <el-form-item label="">
+        <el-input size="small" clearable v-model="formInline.component" placeholder="输入组件路径"></el-input>
       </el-form-item>
       <el-form-item>
         <el-button size="small" type="primary" icon="el-icon-search" @click="search">搜索</el-button>
         <el-button size="small" type="primary" icon="el-icon-plus" @click="handleEdit()">添加</el-button>
-<!--        <el-button size="small" type="primary" @click="handleunit()">部门设置</el-button>-->
+        <!--        <el-button size="small" type="primary" @click="handleunit()">部门设置</el-button>-->
       </el-form-item>
     </el-form>
     <!--列表-->
@@ -36,32 +39,37 @@
       </el-table-column>
       <el-table-column align="center"  prop="id" label="id" width="50" >
       </el-table-column>
-      <el-table-column align="center"  prop="username" label="用户名">
+      <el-table-column align="center"  prop="parentId" label="所属上级">
       </el-table-column>
-      <el-table-column align="center"  prop="name" label="姓名">
+      <el-table-column align="center"  prop="name" label="名称">
       </el-table-column>
-      <el-table-column align="center"  prop="phone" label="手机号">
+      <el-table-column align="center"  prop="sortValue" label="顺序">
       </el-table-column>
-      <el-table-column align="center" sortable prop="postId" label="岗位id" width="80">
+      <el-table-column align="center"  prop="type" label="类型">
+        <template slot-scope="scope">
+          <span>{{ scope.row.type === 1 ? '菜单' : '按钮' }}</span>
+        </template>
       </el-table-column>
-      <el-table-column align="center" sortable prop="deptId" label="部门id" width="80">
+      <el-table-column align="center" sortable prop="path" label="路由地址" >
       </el-table-column>
-      <el-table-column align="center"  prop="description" label="备注">
+      <el-table-column align="center" sortable prop="component" label="组件路径" >
+      </el-table-column>
+      <el-table-column align="center"  prop="perms" label="权限标识">
       </el-table-column>
       <el-table-column align="center" sortable prop="createTime" label="创建时间" width="140">
       </el-table-column>
       <el-table-column align="center" sortable prop="updateTime" label="更新时间" width="140">
       </el-table-column>
-<!--      <el-table-column align="center"  prop="status" label="状态" width="50">-->
-<!--      </el-table-column>-->
+      <!--      <el-table-column align="center"  prop="status" label="状态" width="50">-->
+      <!--      </el-table-column>-->
       <el-table-column label="操作" min-width="120" >
         <template slot-scope="scope">
           <el-button size="mini" @click="handleEdit(scope.id, scope.row)">编辑</el-button>
           <el-button size="mini" type="danger" @click="deleteUser(scope.id, scope.row)">删除</el-button>
-<!--          <el-button size="mini" type="success" @click="resetpwd(scope.$index, scope.row)">重置密码</el-button>-->
-<!--          <el-button size="mini" type="success" @click="dataAccess(scope.$index, scope.row)">数据权限</el-button>-->
-<!--          <el-button size="mini" type="success" @click="offlineUser(scope.$index, scope.row)">下线</el-button>-->
-<!--          <el-button size="mini" type="success" @click="refreshCache(scope.$index, scope.row)">刷新缓存</el-button>-->
+          <!--          <el-button size="mini" type="success" @click="resetpwd(scope.$index, scope.row)">重置密码</el-button>-->
+          <!--          <el-button size="mini" type="success" @click="dataAccess(scope.$index, scope.row)">数据权限</el-button>-->
+          <!--          <el-button size="mini" type="success" @click="offlineUser(scope.$index, scope.row)">下线</el-button>-->
+          <!--          <el-button size="mini" type="success" @click="refreshCache(scope.$index, scope.row)">刷新缓存</el-button>-->
         </template>
       </el-table-column>
     </el-table>
@@ -80,7 +88,7 @@
           <el-input size="small" v-model="editForm.phone" auto-complete="off" placeholder="请输入手机号"></el-input>
         </el-form-item>
         <el-form-item label="岗位" >
-<!--          <el-input size="small" v-model="editForm.deptId" auto-complete="off" placeholder="请输入岗位id"></el-input>-->
+          <!--          <el-input size="small" v-model="editForm.deptId" auto-complete="off" placeholder="请输入岗位id"></el-input>-->
           <el-select size="small" v-model="editForm.deptId" placeholder="请输入岗位id">
             <el-option label="1021" value="1021"></el-option>
             <el-option label="1022" value="1022"></el-option>
@@ -89,7 +97,7 @@
           </el-select>
         </el-form-item>
         <el-form-item label="部门" >
-<!--          <el-input size="small" v-model="editForm.postId" auto-complete="off" placeholder="请输入部门id"></el-input>-->
+          <!--          <el-input size="small" v-model="editForm.postId" auto-complete="off" placeholder="请输入部门id"></el-input>-->
           <el-select size="small" v-model="editForm.postId" placeholder="请输入部门id">
             <el-option label="5" value="5"></el-option>
             <el-option label="6" value="6"></el-option>
@@ -142,6 +150,7 @@
 // } from '../../api/userMG'
 import Pagination from '@/components/Pagination.vue'
 import { deleteUserInfo, insertUserInfo, selectUserInfo, updateUserInfo } from '@/api/user'
+import { selectMenu } from '@/api/menu'
 export default {
   data() {
     return {
@@ -218,10 +227,11 @@ export default {
       formInline: {
         page: 0,
         limit: 10,
-        postId:'',
-        deptId: '',
+        type: '',
+        path: '',
         name: '',
-        userName: '',
+        component: '',
+        parentId: ''
       },
       //用户数据
       userData: [],
@@ -272,9 +282,13 @@ export default {
     // 获取数据方法
     fetchData(){
       this.loading = true
-      selectUserInfo(this.formInline).then(res => {
+      selectMenu(this.formInline).then(res => {
         console.log(res)
-        this.userData = res.data
+        this.userData = res.data.list
+        this.pageparm.currentPage = res.data.pageNum
+        this.pageparm.pageSize = res.data.pageSize
+        this.pageparm.total = res.data.total
+        // this.
       }).finally(()=>{
         this.loading = false
       })
@@ -388,7 +402,7 @@ export default {
           this.loading = false
           this.$message.error('保存失败，请稍后再试！')
         }).finally(()=>{
-          this.isInsertForm = true
+        this.isInsertForm = true
       })
     },
     updateUserInfo(){
@@ -414,16 +428,16 @@ export default {
           this.loading = false
           this.$message.error('保存失败，请稍后再试！')
         }).finally(()=>{
-          delete this.editForm.id
-          this.isInsertForm = true
-        })
+        delete this.editForm.id
+        this.isInsertForm = true
+      })
     },
     // 编辑、添加提交方法
     submitForm(editData) {
       this.$refs[editData].validate(valid => {
         if (valid) {
           if(this.isInsertForm) {
-           this.insertUserInfo()
+            this.insertUserInfo()
             // console.log('insertUserInfo')
             // debugger
           } else {

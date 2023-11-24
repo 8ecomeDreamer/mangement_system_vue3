@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.atguigu.system.mapper.SysMenuMapper">
+
+    <resultMap id="BaseResultMap" type="com.atguigu.model.system.SysMenu">
+            <id property="id" column="id" jdbcType="BIGINT"/>
+            <result property="parentId" column="parent_id" jdbcType="BIGINT"/>
+            <result property="name" column="name" jdbcType="VARCHAR"/>
+            <result property="type" column="type" jdbcType="TINYINT"/>
+            <result property="path" column="path" jdbcType="VARCHAR"/>
+            <result property="component" column="component" jdbcType="VARCHAR"/>
+            <result property="perms" column="perms" jdbcType="VARCHAR"/>
+            <result property="icon" column="icon" jdbcType="VARCHAR"/>
+            <result property="sortValue" column="sort_value" jdbcType="INTEGER"/>
+            <result property="status" column="status" jdbcType="TINYINT"/>
+            <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+            <result property="updateTime" column="update_time" jdbcType="TIMESTAMP"/>
+            <result property="isDeleted" column="is_deleted" jdbcType="TINYINT"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,parent_id,name,
+        type,path,component,
+        perms,icon,sort_value,
+        status,create_time,update_time,
+        is_deleted
+    </sql>
+
+    <insert id="insertMenuInfo">
+        insert into
+        sys_menu
+        (name,
+        path,
+        parent_id,
+        sort_value,
+        icon,
+        type,
+        is_blank
+        <if test="SysMenuMergeVo.component != null and SysMenuMergeVo.component != ''">
+            ,component
+        </if>
+        <if test="SysMenuMergeVo.description != null and SysMenuMergeVo.description != ''">
+            ,description
+        </if>
+        )
+        values
+        (
+        #{SysMenuMergeVo.name},
+        #{SysMenuMergeVo.path},
+        #{SysMenuMergeVo.parentId},
+        #{SysMenuMergeVo.sortValue},
+        #{SysMenuMergeVo.icon},
+        #{SysMenuMergeVo.type},
+        #{SysMenuMergeVo.isBlank},
+        <if test="SysMenuMergeVo.component != null and SysMenuMergeVo.component != ''">
+            ,component
+        </if>
+        <if test="SysMenuMergeVo.description != null and SysMenuMergeVo.description != ''">
+            ,description
+        </if>
+        )
+    </insert>
+
+    <update id="updateMenuInfo">
+        UPDATE sys_menu
+        <set>
+            name = #{SysMenuMergeVo.name},
+            path = #{SysMenuMergeVo.path},
+            parent_id = #{SysMenuMergeVo.parentId},
+            sort_value = #{SysMenuMergeVo.sortValue},
+            icon = #{SysMenuMergeVo.icon},
+            type = #{SysMenuMergeVo.type},
+            is_blank = #{SysMenuMergeVo.isBlank}
+            <if test="SysMenuMergeVo.component != null and SysMenuMergeVo.component != ''">
+                ,component = #{SysMenuMergeVo.component},
+            </if>
+            <if test="SysMenuMergeVo.description != null and SysMenuMergeVo.description != ''">
+                phone = #{SysMenuMergeVo.description},
+            </if>
+        </set>
+        WHERE id = #{SysMenuMergeVo.id}
+    </update>
+
+    <update id="deleteMenuInfo" >
+        UPDATE sys_menu
+        SET is_deleted = 1
+        WHERE id IN
+        <foreach collection="deleteIds" item="id" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </update>
+
+    <select id="selectMenuInfo" resultType="com.atguigu.model.system.SysMenu">
+        select
+            <include refid="Base_Column_List" />
+        from sys_menu
+        <where>
+            is_deleted = 0
+            <if test="sysMenuQueryVo.id != null  ">
+                and id = #{sysMenuQueryVo.id}
+            </if>
+            <if test="sysMenuQueryVo.type != null  ">
+<!--                and type like CONCAT('%',  #{sysMenuQueryVo.type} , '%')-->
+                and type = #{sysMenuQueryVo.type}
+            </if>
+            <if test="sysMenuQueryVo.path != null and sysMenuQueryVo.path != '' ">
+                and path like CONCAT('%',  #{sysMenuQueryVo.path} , '%')
+            </if>
+            <if test="sysMenuQueryVo.name != null and sysMenuQueryVo.name != '' ">
+                and name like CONCAT('%',  #{sysMenuQueryVo.name} , '%')
+            </if>
+            <if test="sysMenuQueryVo.component != null and sysMenuQueryVo.component != '' ">
+                and component like CONCAT('%',  #{sysMenuQueryVo.component} , '%')
+            </if>
+            <if test="sysMenuQueryVo.parentId != null and sysMenuQueryVo.parentId != '' ">
+                and parent_id like CONCAT('%',  #{sysMenuQueryVo.parentId} , '%')
+            </if>
+        </where>
+<!--        limit  #{sysMenuQueryVo.page},#{sysMenuQueryVo.limit}-->
+    </select>
+</mapper>

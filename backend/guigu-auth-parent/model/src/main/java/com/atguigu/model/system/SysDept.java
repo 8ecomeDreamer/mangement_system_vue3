@@ -7,6 +7,7 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
+import java.util.Date;
 import java.util.List;
 
 @Data
@@ -44,8 +45,16 @@ public class SysDept extends BaseEntity {
 	@TableField("status")
 	private Integer status;
 
-	@ApiModelProperty(value = "下级部门")
-	@TableField(exist = false)
-	private List<SysDept> children;
+	@ApiModelProperty(value = "创建时间")
+	@TableField(value = "create_time")
+	private Date createTime;
+
+	@ApiModelProperty(value = "更新时间")
+	@TableField(value = "update_time")
+	private Date updateTime;
+
+	@ApiModelProperty(value = "删除标记")
+	@TableField(value = "is_deleted")
+	private Integer isDeleted;
 
 }

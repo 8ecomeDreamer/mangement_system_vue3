@@ -73,8 +73,20 @@ export const constantRoutes = [
       },
       {
         path: 'sysRole',
-        component: () => import('@/views/system/sysMenu.vue'),
+        component: () => import('@/views/system/sysRole.vue'),
         name: 'SysRole',
+        meta: { title: '角色管理' }
+      },
+      {
+        path: 'sysDept',
+        component: () => import('@/views/system/sysDept.vue'),
+        name: 'SysDept',
+        meta: { title: '部门管理' }
+      },
+      {
+        path: 'sysMenu',
+        component: () => import('@/views/system/sysMenu.vue'),
+        name: 'SysMenu',
         meta: { title: '菜单管理' }
       },
       // {

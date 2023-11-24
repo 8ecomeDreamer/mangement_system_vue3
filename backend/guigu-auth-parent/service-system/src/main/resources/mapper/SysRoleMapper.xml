@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.atguigu.system.mapper.SysRoleMapper">
+
+    <resultMap id="BaseResultMap" type="com.atguigu.model.system.SysRole">
+            <id property="id" column="id" jdbcType="BIGINT"/>
+            <result property="roleName" column="parent_id" jdbcType="BIGINT"/>
+            <result property="roleCode" column="name" jdbcType="VARCHAR"/>
+            <result property="description" column="type" jdbcType="TINYINT"/>
+            <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+            <result property="updateTime" column="update_time" jdbcType="TIMESTAMP"/>
+            <result property="isDeleted" column="is_deleted" jdbcType="TINYINT"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,role_name,role_code,
+        description,create_time,update_time,
+        is_deleted
+    </sql>
+
+    <insert id="insertRoleInfo">
+        insert into
+        sys_menu
+        (name,
+        path,
+        parent_id,
+        sort_value,
+        icon,
+        type,
+        is_blank
+        <if test="SysRoleMergeVo.component != null and SysRoleMergeVo.component != ''">
+            ,component
+        </if>
+        <if test="SysRoleMergeVo.description != null and SysRoleMergeVo.description != ''">
+            ,description
+        </if>
+        )
+        values
+        (
+        #{SysRoleMergeVo.name},
+        #{SysRoleMergeVo.path},
+        #{SysRoleMergeVo.parentId},
+        #{SysRoleMergeVo.sortValue},
+        #{SysRoleMergeVo.icon},
+        #{SysRoleMergeVo.type},
+        #{SysRoleMergeVo.isBlank},
+        <if test="SysRoleMergeVo.component != null and SysRoleMergeVo.component != ''">
+            ,component
+        </if>
+        <if test="SysRoleMergeVo.description != null and SysRoleMergeVo.description != ''">
+            ,description
+        </if>
+        )
+    </insert>
+
+    <update id="updateRoleInfo">
+        UPDATE sys_menu
+        <set>
+            name = #{SysRoleMergeVo.name},
+            path = #{SysRoleMergeVo.path},
+            parent_id = #{SysRoleMergeVo.parentId},
+            sort_value = #{SysRoleMergeVo.sortValue},
+            icon = #{SysRoleMergeVo.icon},
+            type = #{SysRoleMergeVo.type},
+            is_blank = #{SysRoleMergeVo.isBlank}
+            <if test="SysRoleMergeVo.component != null and SysRoleMergeVo.component != ''">
+                ,component = #{SysRoleMergeVo.component},
+            </if>
+            <if test="SysRoleMergeVo.description != null and SysRoleMergeVo.description != ''">
+                phone = #{SysRoleMergeVo.description},
+            </if>
+        </set>
+        WHERE id = #{SysRoleMergeVo.id}
+    </update>
+
+    <update id="deleteRoleInfo" >
+        UPDATE sys_menu
+        SET is_deleted = 1
+        WHERE id IN
+        <foreach collection="deleteIds" item="id" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </update>
+
+    <select id="selectRoleInfo" resultType="com.atguigu.model.system.SysRole">
+        select
+            <include refid="Base_Column_List" />
+        from sys_menu
+        <where>
+            is_deleted = 0
+            <if test="sysRoleQueryVo.id != null  ">
+                and id = #{sysRoleQueryVo.id}
+            </if>
+            <if test="sysRoleQueryVo.type != null  ">
+<!--                and type like CONCAT('%',  #{sysRoleQueryVo.type} , '%')-->
+                and type = #{sysRoleQueryVo.type}
+            </if>
+            <if test="sysRoleQueryVo.path != null and sysRoleQueryVo.path != '' ">
+                and path like CONCAT('%',  #{sysRoleQueryVo.path} , '%')
+            </if>
+            <if test="sysRoleQueryVo.name != null and sysRoleQueryVo.name != '' ">
+                and name like CONCAT('%',  #{sysRoleQueryVo.name} , '%')
+            </if>
+            <if test="sysRoleQueryVo.component != null and sysRoleQueryVo.component != '' ">
+                and component like CONCAT('%',  #{sysRoleQueryVo.component} , '%')
+            </if>
+            <if test="sysRoleQueryVo.parentId != null and sysRoleQueryVo.parentId != '' ">
+                and parent_id like CONCAT('%',  #{sysRoleQueryVo.parentId} , '%')
+            </if>
+        </where>
+<!--        limit  #{sysRoleQueryVo.page},#{sysRoleQueryVo.limit}-->
+    </select>
+</mapper>

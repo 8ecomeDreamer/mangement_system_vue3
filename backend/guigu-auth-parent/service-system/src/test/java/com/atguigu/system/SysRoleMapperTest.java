@@ -1,25 +1,20 @@
 package com.atguigu.system;
 
 import com.atguigu.model.system.SysRole;
-import com.atguigu.model.vo.LoginVo;
-import com.atguigu.model.vo.SysUserQueryVo;
 import com.atguigu.system.mapper.SysRoleMapper;
-import com.atguigu.system.service.SysUserService;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import javax.annotation.Resource;
-import java.lang.reflect.Array;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 @SpringBootTest
 public class SysRoleMapperTest {
 
-    @Autowired
+    @Resource
     private SysRoleMapper sysRoleMapper;
 
 

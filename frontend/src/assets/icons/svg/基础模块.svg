@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="48px" height="48px" viewBox="0 0 48 48" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>基础模块</title>
+    <g id="基础模块" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g transform="translate(5.000000, 5.000000)" fill="#131415">
+            <rect id="矩形" x="0" y="0" width="38" height="10" rx="1"></rect>
+            <rect id="矩形备份" opacity="0.600000024" x="0" y="14" width="11" height="24" rx="1"></rect>
+            <rect id="矩形备份-2" x="15" y="14" width="23" height="24" rx="1"></rect>
+        </g>
+    </g>
+</svg>

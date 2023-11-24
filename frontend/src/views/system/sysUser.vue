@@ -140,7 +140,7 @@
 //   UserDeptdeptTree,
 //   UserChangeDept
 // } from '../../api/userMG'
-import Pagination from '@/components/Pagination.vue'
+import Pagination from '@/components/common/Pagination.vue'
 import { deleteUserInfo, insertUserInfo, selectUserInfo, updateUserInfo } from '@/api/user'
 export default {
   data() {

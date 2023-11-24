@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="48px" height="48px" viewBox="0 0 48 48" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>设计总表</title>
+    <g id="设计总表" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="编组-3" transform="translate(5.000000, 5.000000)" fill="#131415">
+            <g id="编组-2">
+                <rect id="矩形" x="0" y="0" width="28" height="6" rx="1"></rect>
+                <rect id="矩形备份" x="0" y="10" width="8" height="8" rx="1"></rect>
+                <rect id="矩形备份-4" x="10" y="10" width="8" height="8" rx="1"></rect>
+                <rect id="矩形备份-7" x="20" y="10" width="8" height="8" rx="1"></rect>
+                <rect id="矩形备份-2" x="0" y="20" width="8" height="8" rx="1"></rect>
+                <rect id="矩形备份-5" x="10" y="20" width="8" height="8" rx="1"></rect>
+                <rect id="矩形备份-8" x="20" y="20" width="8" height="8" rx="1"></rect>
+                <rect id="矩形备份-3" x="0" y="30" width="8" height="8" rx="1"></rect>
+                <rect id="矩形备份-6" x="10" y="30" width="8" height="8" rx="1"></rect>
+                <rect id="矩形备份-9" x="20" y="30" width="8" height="8" rx="1"></rect>
+            </g>
+            <g id="编组" transform="translate(30.000000, 0.000000)" opacity="0.600000024">
+                <rect id="矩形备份-13" x="0" y="0" width="8" height="6" rx="1"></rect>
+                <path d="M4.4472136,30.8944272 L7.6381966,37.2763932 C7.76169123,37.5233825 7.66157905,37.823719 7.4145898,37.9472136 C7.34516209,37.9819275 7.26860555,38 7.19098301,38 L0.809016994,38 C0.532874619,38 0.309016994,37.7761424 0.309016994,37.5 C0.309016994,37.4223775 0.32708954,37.3458209 0.361803399,37.2763932 L3.5527864,30.8944272 C3.67628103,30.6474379 3.97661755,30.5473258 4.2236068,30.6708204 C4.3203705,30.7192022 4.39883174,30.7976635 4.4472136,30.8944272 Z" id="三角形" transform="translate(4.000000, 34.000000) scale(1, -1) translate(-4.000000, -34.000000) "></path>
+                <rect id="矩形备份-10" x="0" y="8" width="8" height="20" rx="1"></rect>
+            </g>
+        </g>
+    </g>
+</svg>

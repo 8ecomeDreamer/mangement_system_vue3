@@ -2,7 +2,12 @@
 //
 package com.atguigu.model.vo;
 
+import com.baomidou.mybatisplus.annotation.TableField;
+import io.swagger.annotations.ApiModelProperty;
+import lombok.Data;
+
 import java.io.Serializable;
+import java.util.Date;
 
 /**
  * <p>
@@ -12,18 +17,27 @@ import java.io.Serializable;
  * @author qy
  * @since 2019-11-08
  */
+
+@Data
 public class SysRoleQueryVo implements Serializable {
-	
+
 	private static final long serialVersionUID = 1L;
-	
+
+
+	private Integer page;
+	private Integer limit;
+
+	@ApiModelProperty(value = "角色名称")
+	@TableField("role_name")
 	private String roleName;
 
-	public String getRoleName() {
-		return roleName;
-	}
+	@ApiModelProperty(value = "角色编码")
+	@TableField("role_code")
+	private String roleCode;
 
-	public void setRoleName(String roleName) {
-		this.roleName = roleName;
-	}
+	@ApiModelProperty(value = "描述")
+	@TableField("description")
+	private String description;
+
 }
 

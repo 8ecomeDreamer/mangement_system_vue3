@@ -3,6 +3,7 @@ package com.atguigu.system.controller;
 import com.atguigu.common.result.Result;
 import com.atguigu.common.result.ResultCodeEnum;
 import com.atguigu.model.system.SysMenu;
+import com.atguigu.model.vo.SysMenuMergeVo;
 import com.atguigu.model.vo.SysMenuQueryVo;
 import com.atguigu.system.service.SysMenuService;
 import com.github.pagehelper.PageHelper;
@@ -39,8 +40,8 @@ public class SysMenuController {
 
     @ApiOperation("添加菜单信息")
     @PostMapping("insertMenu")
-    public Result insertMenu(@RequestBody SysMenuQueryVo sysMenuQueryVo) {
-        int flag = sysMenuService.insertMenuInfo(sysMenuQueryVo);
+    public Result insertMenu(@RequestBody SysMenuMergeVo sysMenuMergeVo) {
+        int flag = sysMenuService.insertMenuInfo(sysMenuMergeVo);
         if(flag > 0){
             return Result.ok();
         }
@@ -49,8 +50,8 @@ public class SysMenuController {
 
     @ApiOperation("更新菜单信息")
     @PostMapping("updateMenu")
-    public Result updateMenu(@RequestBody SysMenuQueryVo sysMenuQueryVo) {
-        int flag = sysMenuService.updateMenuInfo(sysMenuQueryVo);
+    public Result updateMenu(@RequestBody SysMenuMergeVo sysMenuMergeVo) {
+        int flag = sysMenuService.updateMenuInfo(sysMenuMergeVo);
         if(flag > 0){
             return Result.ok();
         }

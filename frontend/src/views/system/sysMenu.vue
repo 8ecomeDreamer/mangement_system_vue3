@@ -1,5 +1,5 @@
 /**
-* 系统管理 用户管理
+* 系统管理 菜单管理
 */
 <template>
   <div style="padding: 0 10px;">
@@ -13,19 +13,19 @@
       <!--        </el-select>-->
       <!--      </el-form-item>-->
       <el-form-item label="" >
-        <el-input size="small" clearable v-model="formInline.parentId" placeholder="输入上级路由" ></el-input>
+        <el-input size="small" clearable v-model.trim="formInline.parentId" placeholder="输入上级路由" ></el-input>
       </el-form-item>
       <el-form-item label="">
-        <el-input size="small" clearable v-model="formInline.name" placeholder="输入路由名称"></el-input>
+        <el-input size="small" clearable v-model.trim="formInline.name" placeholder="输入路由名称"></el-input>
       </el-form-item>
       <el-form-item label="">
-        <el-input size="small" clearable v-model="formInline.type" placeholder="输入路由类型"></el-input>
+        <el-input size="small" clearable v-model.trim="formInline.type" placeholder="输入路由类型"></el-input>
       </el-form-item>
       <el-form-item label="">
-        <el-input size="small" clearable v-model="formInline.path" placeholder="输入路由地址"></el-input>
+        <el-input size="small" clearable v-model.trim="formInline.path" placeholder="输入路由地址"></el-input>
       </el-form-item>
       <el-form-item label="">
-        <el-input size="small" clearable v-model="formInline.component" placeholder="输入组件路径"></el-input>
+        <el-input size="small" clearable v-model.trim="formInline.component" placeholder="输入组件路径"></el-input>
       </el-form-item>
       <el-form-item>
         <el-button size="small" type="primary" icon="el-icon-search" @click="search">搜索</el-button>
@@ -47,10 +47,20 @@
       </el-table-column>
       <el-table-column align="center"  prop="type" label="类型">
         <template slot-scope="scope">
-          <span>{{ scope.row.type === 1 ? '菜单' : '按钮' }}</span>
+          <span>{{ scope.row.type === 0 ? '目录' :  (scope.row.type === 1 ? '菜单' : '按钮') }}</span>
         </template>
       </el-table-column>
       <el-table-column align="center" sortable prop="path" label="路由地址" >
+      </el-table-column>
+      <el-table-column
+        prop="action"
+        label="菜单图标"
+        align="center"
+      >
+        <template v-slot="scoped">
+          {{scoped.row.icon}}
+<!--          <svg-icon :icon-class="scoped.row.icon || ''"/>-->
+        </template>
       </el-table-column>
       <el-table-column align="center" sortable prop="component" label="组件路径" >
       </el-table-column>
@@ -62,10 +72,10 @@
       </el-table-column>
       <!--      <el-table-column align="center"  prop="status" label="状态" width="50">-->
       <!--      </el-table-column>-->
-      <el-table-column label="操作" min-width="120" >
+      <el-table-column label="操作" align="center"  min-width="120" >
         <template slot-scope="scope">
           <el-button size="mini" @click="handleEdit(scope.id, scope.row)">编辑</el-button>
-          <el-button size="mini" type="danger" @click="deleteUser(scope.id, scope.row)">删除</el-button>
+          <el-button size="mini" type="danger" @click="deleteMenu(scope.id, scope.row)">删除</el-button>
           <!--          <el-button size="mini" type="success" @click="resetpwd(scope.$index, scope.row)">重置密码</el-button>-->
           <!--          <el-button size="mini" type="success" @click="dataAccess(scope.$index, scope.row)">数据权限</el-button>-->
           <!--          <el-button size="mini" type="success" @click="offlineUser(scope.$index, scope.row)">下线</el-button>-->
@@ -76,60 +86,45 @@
     <!-- 分页组件 -->
     <Pagination v-bind:child-msg="pageparm" @callFather="callFather"></Pagination>
     <!-- 编辑界面 -->
-    <el-dialog :title="title" :visible.sync="editFormVisible" width="30%" @click='closeDialog("edit")'>
-      <el-form label-width="80px" ref="editForm" :model="editForm" :rules="rules">
-        <el-form-item label="用户名" prop="userName">
-          <el-input size="small" v-model="editForm.userName" auto-complete="off" placeholder="请输入用户名"></el-input>
-        </el-form-item>
-        <el-form-item label="姓名" prop="userName">
-          <el-input size="small" v-model="editForm.name" auto-complete="off" placeholder="请输入真实姓名"></el-input>
-        </el-form-item>
-        <el-form-item label="手机号">
-          <el-input size="small" v-model="editForm.phone" auto-complete="off" placeholder="请输入手机号"></el-input>
-        </el-form-item>
-        <el-form-item label="岗位" >
-          <!--          <el-input size="small" v-model="editForm.deptId" auto-complete="off" placeholder="请输入岗位id"></el-input>-->
-          <el-select size="small" v-model="editForm.deptId" placeholder="请输入岗位id">
-            <el-option label="1021" value="1021"></el-option>
-            <el-option label="1022" value="1022"></el-option>
-            <el-option label="1024" value="1024"></el-option>
-            <el-option label="1025" value="1025"></el-option>
-          </el-select>
-        </el-form-item>
-        <el-form-item label="部门" >
-          <!--          <el-input size="small" v-model="editForm.postId" auto-complete="off" placeholder="请输入部门id"></el-input>-->
-          <el-select size="small" v-model="editForm.postId" placeholder="请输入部门id">
-            <el-option label="5" value="5"></el-option>
-            <el-option label="6" value="6"></el-option>
-          </el-select>
-        </el-form-item>
-        <el-form-item label="备注" >
-          <el-input size="small" v-model="editForm.description" auto-complete="off" placeholder="请输入用户名"></el-input>
-        </el-form-item>
-      </el-form>
-      <div slot="footer" class="dialog-footer">
-        <el-button size="small" @click='closeDialog("edit")'>取消</el-button>
-        <el-button size="small" type="primary" :loading="loading" class="title" @click="submitForm('editForm')">保存</el-button>
-      </div>
-    </el-dialog>
-    <!-- 数据权限 -->
-    <el-dialog title="数据权限" :visible.sync="dataAccessshow" width="30%" @click='closeDialog("perm")'>
-      <el-tree ref="tree" default-expand-all="" :data="UserDept" :props="defaultProps" :default-checked-keys="checkmenu" node-key="id" show-checkbox>
-      </el-tree>
-      <div slot="footer" class="dialog-footer">
-        <el-button size="small" @click='closeDialog("perm")'>取消</el-button>
-        <el-button size="small" type="primary" :loading="loading" class="title" @click="menuPermSave">保存</el-button>
-      </div>
-    </el-dialog>
-    <!-- 所属单位 -->
-    <el-dialog title="所属单位" :visible.sync="unitAccessshow" width="30%" @click='closeDialog("unit")'>
-      <el-tree ref="tree" default-expand-all="" :data="UserDept" :props="defaultProps" @check-change="handleClick" :default-checked-keys="checkmenu" node-key="id" show-checkbox check-strictly>
-      </el-tree>
-      <div slot="footer" class="dialog-footer">
-        <el-button size="small" @click='closeDialog("unit")'>取消</el-button>
-        <el-button size="small" type="primary" :loading="loading" class="title" @click="unitPermSave">保存</el-button>
-      </div>
-    </el-dialog>
+<!--    <el-dialog :title="title" :visible.sync="editFormVisible" width="30%" @click='closeDialog("edit")'>-->
+<!--      <el-form label-width="80px" ref="editForm" :model="editForm" :rules="rules">-->
+<!--        <el-form-item label="用户名" prop="userName">-->
+<!--          <el-input size="small" v-model="editForm.userName" auto-complete="off" placeholder="请输入用户名"></el-input>-->
+<!--        </el-form-item>-->
+<!--        <el-form-item label="姓名" prop="userName">-->
+<!--          <el-input size="small" v-model="editForm.name" auto-complete="off" placeholder="请输入真实姓名"></el-input>-->
+<!--        </el-form-item>-->
+<!--        <el-form-item label="手机号">-->
+<!--          <el-input size="small" v-model="editForm.phone" auto-complete="off" placeholder="请输入手机号"></el-input>-->
+<!--        </el-form-item>-->
+<!--        <el-form-item label="岗位" >-->
+<!--          &lt;!&ndash;          <el-input size="small" v-model="editForm.deptId" auto-complete="off" placeholder="请输入岗位id"></el-input>&ndash;&gt;-->
+<!--          <el-select size="small" v-model="editForm.deptId" placeholder="请输入岗位id">-->
+<!--            <el-option label="1021" value="1021"></el-option>-->
+<!--            <el-option label="1022" value="1022"></el-option>-->
+<!--            <el-option label="1024" value="1024"></el-option>-->
+<!--            <el-option label="1025" value="1025"></el-option>-->
+<!--          </el-select>-->
+<!--        </el-form-item>-->
+<!--        <el-form-item label="部门" >-->
+<!--          &lt;!&ndash;          <el-input size="small" v-model="editForm.postId" auto-complete="off" placeholder="请输入部门id"></el-input>&ndash;&gt;-->
+<!--          <el-select size="small" v-model="editForm.postId" placeholder="请输入部门id">-->
+<!--            <el-option label="5" value="5"></el-option>-->
+<!--            <el-option label="6" value="6"></el-option>-->
+<!--          </el-select>-->
+<!--        </el-form-item>-->
+<!--        <el-form-item label="备注" >-->
+<!--          <el-input size="small" v-model="editForm.description" auto-complete="off" placeholder="请输入用户名"></el-input>-->
+<!--        </el-form-item>-->
+<!--      </el-form>-->
+<!--      <div slot="footer" class="dialog-footer">-->
+<!--        <el-button size="small" @click='closeDialog("edit")'>取消</el-button>-->
+<!--        <el-button size="small" type="primary" :loading="loading" class="title" @click="submitForm('editForm')">保存</el-button>-->
+<!--      </div>-->
+<!--    </el-dialog>-->
+<!--    弹窗-->
+    <MenuForm :dialog="addDialogData" v-if="addDialogData.addVisabled" ></MenuForm>
+
   </div>
 </template>
 
@@ -148,9 +143,10 @@
 //   UserDeptdeptTree,
 //   UserChangeDept
 // } from '../../api/userMG'
-import Pagination from '@/components/Pagination.vue'
+import Pagination from '@/components/common/Pagination.vue'
+import MenuForm from './component/MenuForm.vue'
 import { deleteUserInfo, insertUserInfo, selectUserInfo, updateUserInfo } from '@/api/user'
-import { selectMenu } from '@/api/menu'
+import { selectMenu,deleteMenu } from '@/api/menu'
 export default {
   data() {
     return {
@@ -251,11 +247,21 @@ export default {
         pageSize: 10,
         total: 10
       },
+      addDialogData: {
+        addVisabled: false,
+        title: '新增',
+        columnVisiable: false,
+        menuList: [],
+        menuType: 'add',
+        menuId: '',
+        menuName: ''
+      },
     }
   },
   // 注册组件
   components: {
-    Pagination
+    Pagination,
+    MenuForm
   },
 
   /**
@@ -285,8 +291,6 @@ export default {
       selectMenu(this.formInline).then(res => {
         console.log(res)
         this.userData = res.data.list
-        this.pageparm.currentPage = res.data.pageNum
-        this.pageparm.pageSize = res.data.pageSize
         this.pageparm.total = res.data.total
         // this.
       }).finally(()=>{
@@ -299,8 +303,26 @@ export default {
       this.formInline.limit = parm.pageSize
       this.fetchData(this.formInline)
     },
+    switchFormType(val){
+      // 0:目录,1:菜单,2:按钮
+      switch (val){
+        case '目录':
+          return 0
+        case '菜单':
+          return 1
+        case '按钮':
+          return 2
+        default:
+          return null
+      }
+    },
     //搜索事件
     search() {
+      // 深拷贝 不影响原对象
+      const params = JSON.parse(JSON.stringify(this.formInline))
+      // params.type = this.switchFormType(this.formInline.type)
+      this.formInline.type = this.switchFormType(this.formInline.type)
+      // console.log(this.formInline)
       this.fetchData(this.formInline)
     },
     // 修改type
@@ -337,45 +359,17 @@ export default {
     },
     //显示编辑界面
     handleEdit: function(index, row) {
-      this.editFormVisible = true
+      this.addDialogData.addVisabled = true;
       // console.log(this.rules)
       if (row != undefined && row != 'undefined') {
-        // 规则不为必填
-        this.isInsertForm = false
-        const userNameObj = { required: false, message: '请输入用户名', trigger: 'blur' }
-        const NameObj = { required: false, message: '请输入姓名', trigger: 'blur' }
-        this.$set(this.rules, 'userName', userNameObj)
-        this.$set(this.rules, 'name', NameObj)
         // 修改 只有修改界面才需要id
-        this.title = '修改用户'
-        this.editForm.id = row.id
-        this.editForm.userName = row.userName
-        this.editForm.name = row.name
-        this.editForm.phone = row.phone
-        this.editForm.description = row.description
-        this.editForm.deptId = row.deptId
-        this.editForm.postId = row.postId
-        // 修改接口
-        // this.submitForm()
+        this.addDialogData.title = '编辑'
+        this.addDialogData.menuId = row.id
+        this.addDialogData.menuType = 'edit'
       } else {
-        // 规则为必填
-        this.isInsertForm = true
-        const userNameObj = { required: true, message: '请输入用户名', trigger: 'blur' }
-        const NameObj = { required: true, message: '请输入姓名', trigger: 'blur' }
-        this.$set(this.rules, 'userName', userNameObj)
-        this.$set(this.rules, 'name', NameObj)
-        // 添加
-        this.title = '添加用户'
-        this.editForm.userName = ''
-        this.editForm.name = ''
-        this.editForm.phone = ''
-        this.editForm.description = ''
-        this.editForm.deptId = ''
-        this.editForm.postId = ''
-        // 添加接口
+        this.addDialogData.title = '新增'
+        this.addDialogData.menuType = 'add'
       }
-      // this.isInsertForm = true
-
     },
     insertUserInfo(){
       // 请求方法
@@ -526,7 +520,7 @@ export default {
       }
     },
     // 删除用户
-    deleteUser(index, row) {
+    deleteMenu(index, row) {
       const selectedData = this.$refs.basicTable.selection.map(el => el.id)
       if (selectedData.length <= 0){
         this.$message({
@@ -539,19 +533,12 @@ export default {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'warning'
-      })
-        .then(() => {
-          // 删除
-          // deleteUserInfo(JSON.stringify(selectedData)).then(res => {
-          //   if (res.code === '200') {
-          //     this.$message({
-          //       type: 'success',
-          //       message: '数据已删除!'
-          //     })
-          //   }
-          // })
-          deleteUserInfo(selectedData)
+      }).then(() => {
+          debugger
+          deleteMenu(selectedData)
             .then(res => {
+              console.log(res)
+              debugger
               if (res.code === '200') {
                 this.$message({
                   type: 'success',
@@ -568,13 +555,13 @@ export default {
             .catch(err => {
               console.log(err)
               this.loading = false
-              this.$message.error('数据删除失败，请稍后再试！')
+              this.$message.error('数据删除失败！')
             })
         })
         .catch(() => {
           this.$message({
-            type: 'info',
-            message: '已取消删除！'
+            type: 'error',
+            message: '数据删除失败！'
           })
         })
     },

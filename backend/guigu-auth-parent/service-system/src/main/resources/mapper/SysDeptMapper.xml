@@ -8,9 +8,9 @@
             <id property="id" column="id" jdbcType="BIGINT"/>
             <result property="parentId" column="parent_id" jdbcType="BIGINT"/>
             <result property="name" column="name" jdbcType="VARCHAR"/>
-            <result property="treePath" column="type" jdbcType="TINYINT"/>
-            <result property="sortValue" column="path" jdbcType="VARCHAR"/>
-            <result property="leader" column="perms" jdbcType="VARCHAR"/>
+            <result property="treePath" column="tree_path" jdbcType="TINYINT"/>
+            <result property="sortValue" column="sort_value" jdbcType="VARCHAR"/>
+            <result property="leader" column="leader" jdbcType="VARCHAR"/>
             <result property="phone" column="phone" jdbcType="VARCHAR"/>
             <result property="status" column="status" jdbcType="TINYINT"/>
             <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
@@ -20,15 +20,15 @@
 
     <sql id="Base_Column_List">
         id,parent_id,name,
-        type,path,component,
-        perms,icon,sort_value,
-        status,create_time,update_time,
+        tree_path,sort_value,leader,
+        phone,status,
+        create_time,update_time,
         is_deleted
     </sql>
 
     <insert id="insertDeptInfo">
         insert into
-        sys_menu
+        sys_dept
         (name,
         path,
         parent_id,
@@ -62,7 +62,7 @@
     </insert>
 
     <update id="updateDeptInfo">
-        UPDATE sys_menu
+        UPDATE sys_dept
         <set>
             name = #{SysDeptMergeVo.name},
             path = #{SysDeptMergeVo.path},
@@ -82,7 +82,7 @@
     </update>
 
     <update id="deleteDeptInfo" >
-        UPDATE sys_menu
+        UPDATE sys_dept
         SET is_deleted = 1
         WHERE id IN
         <foreach collection="deleteIds" item="id" open="(" separator="," close=")">
@@ -93,27 +93,23 @@
     <select id="selectDeptInfo" resultType="com.atguigu.model.system.SysDept">
         select
             <include refid="Base_Column_List" />
-        from sys_menu
+        from sys_dept
         <where>
             is_deleted = 0
             <if test="sysDeptQueryVo.id != null  ">
                 and id = #{sysDeptQueryVo.id}
             </if>
-            <if test="sysDeptQueryVo.type != null  ">
-<!--                and type like CONCAT('%',  #{sysDeptQueryVo.type} , '%')-->
-                and type = #{sysDeptQueryVo.type}
-            </if>
-            <if test="sysDeptQueryVo.path != null and sysDeptQueryVo.path != '' ">
-                and path like CONCAT('%',  #{sysDeptQueryVo.path} , '%')
+            <if test="sysDeptQueryVo.parentId != null and sysDeptQueryVo.parentId != '' ">
+                and parent_id like CONCAT('%',  #{sysDeptQueryVo.parentId} , '%')
             </if>
             <if test="sysDeptQueryVo.name != null and sysDeptQueryVo.name != '' ">
                 and name like CONCAT('%',  #{sysDeptQueryVo.name} , '%')
             </if>
-            <if test="sysDeptQueryVo.component != null and sysDeptQueryVo.component != '' ">
-                and component like CONCAT('%',  #{sysDeptQueryVo.component} , '%')
+            <if test="sysDeptQueryVo.leader != null and sysDeptQueryVo.leader != '' ">
+                and leader like CONCAT('%',  #{sysDeptQueryVo.leader} , '%')
             </if>
-            <if test="sysDeptQueryVo.parentId != null and sysDeptQueryVo.parentId != '' ">
-                and parent_id like CONCAT('%',  #{sysDeptQueryVo.parentId} , '%')
+            <if test="sysDeptQueryVo.phone != null and sysDeptQueryVo.phone != '' ">
+                and phone like CONCAT('%',  #{sysDeptQueryVo.phone} , '%')
             </if>
         </where>
 <!--        limit  #{sysDeptQueryVo.page},#{sysDeptQueryVo.limit}-->

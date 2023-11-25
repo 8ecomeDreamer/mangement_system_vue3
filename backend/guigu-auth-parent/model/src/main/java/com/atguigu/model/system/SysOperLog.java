@@ -15,6 +15,10 @@ public class SysOperLog extends BaseEntity {
 
 	private static final long serialVersionUID = 1L;
 
+	@ApiModelProperty(value = "id")
+	@TableField("id")
+	private String id;
+
 	@ApiModelProperty(value = "模块标题")
 	@TableField("title")
 	private String title;
@@ -70,5 +74,18 @@ public class SysOperLog extends BaseEntity {
 	@ApiModelProperty(value = "操作时间")
 	@TableField("oper_time")
 	private Date operTime;
+
+	@ApiModelProperty(value = "创建时间")
+	@TableField(value = "create_time")
+	private Date createTime;
+
+	@ApiModelProperty(value = "更新时间")
+	@TableField(value = "update_time")
+	private Date updateTime;
+
+	@ApiModelProperty(value = "删除标记")
+	@TableField(value = "is_deleted")
+	private Integer isDeleted;
+
 
 }

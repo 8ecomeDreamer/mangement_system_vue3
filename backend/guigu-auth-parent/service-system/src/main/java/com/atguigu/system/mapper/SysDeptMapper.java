@@ -4,6 +4,7 @@ import com.atguigu.model.system.SysDept;
 import com.atguigu.model.vo.SysDeptMergeVo;
 import com.atguigu.model.vo.SysDeptQueryVo;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
@@ -14,14 +15,16 @@ import java.util.List;
 * @createDate 2023-11-24 21:42:14
 * @Entity generator.domain.SysDept
 */
+
+@Mapper
 public interface SysDeptMapper extends BaseMapper<SysDept> {
     List<SysDept> selectDeptInfo(@Param("sysDeptQueryVo") SysDeptQueryVo sysDeptQueryVo);
 
     int deleteDeptInfo(@Param("deleteIds") List<String> deleteIds);
 
-    int insertDeptInfo(@Param("sysDeptVo") SysDeptMergeVo sysDeptMergeVo);
+    int insertDeptInfo(@Param("sysDeptMergeVo") SysDeptMergeVo sysDeptMergeVo);
 
-    int updateDeptInfo(@Param("sysDeptVo") SysDeptMergeVo sysDeptMergeVo);
+    int updateDeptInfo(@Param("sysDeptMergeVo") SysDeptMergeVo sysDeptMergeVo);
 }
 
 

@@ -29,13 +29,17 @@ public class SysDeptQueryVo implements Serializable {
 	private Integer page;
 	private Integer limit;
 
+	@ApiModelProperty(value = "id")
+	@TableField("id")
+	private String id;
+
 	@ApiModelProperty(value = "部门名称")
 	@TableField("name")
 	private String name;
 
 	@ApiModelProperty(value = "上级部门id")
 	@TableField("parent_id")
-	private Long parentId;
+	private String parentId;
 
 	@ApiModelProperty(value = "负责人")
 	@TableField("leader")
@@ -44,18 +48,6 @@ public class SysDeptQueryVo implements Serializable {
 	@ApiModelProperty(value = "电话")
 	@TableField("phone")
 	private String phone;
-
-	@ApiModelProperty(value = "创建时间")
-	@TableField(value = "create_time")
-	private Date createTime;
-
-	@ApiModelProperty(value = "更新时间")
-	@TableField(value = "update_time")
-	private Date updateTime;
-
-	@ApiModelProperty(value = "删除标记")
-	@TableField(value = "is_deleted")
-	private Integer isDeleted;
 
 }
 

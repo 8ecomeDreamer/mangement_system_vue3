@@ -23,9 +23,12 @@ public class SysRoleQueryVo implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
-
 	private Integer page;
 	private Integer limit;
+
+	@ApiModelProperty(value = "id")
+	@TableField("id")
+	private Long id;
 
 	@ApiModelProperty(value = "角色名称")
 	@TableField("role_name")

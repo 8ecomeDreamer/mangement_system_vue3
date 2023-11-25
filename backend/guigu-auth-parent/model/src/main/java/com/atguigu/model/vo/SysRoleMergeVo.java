@@ -12,11 +12,9 @@ public class SysRoleMergeVo implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-
     @ApiModelProperty(value = "id")
     @TableField("id")
     private Long id;
-
 
     @ApiModelProperty(value = "角色名称")
     @TableField("role_name")

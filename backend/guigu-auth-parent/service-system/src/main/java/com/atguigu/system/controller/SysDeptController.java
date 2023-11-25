@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.annotation.Resource;
 import java.util.List;
 
-@Api(tags = "角色管理接口")
+@Api(tags = "部门管理接口")
 @RestController
 @RequestMapping("/admin/system/dept")
 public class SysDeptController {
@@ -27,18 +27,18 @@ public class SysDeptController {
     private SysDeptService sysDeptService;
 
 
-    @ApiOperation("查询角色信息")
+    @ApiOperation("查询部门信息")
     @PostMapping("selectDept")
     public Result selectDept(@RequestBody SysDeptQueryVo sysDeptQueryVo){
         // 设置分页
         PageHelper.startPage(sysDeptQueryVo.getPage(), sysDeptQueryVo.getLimit());
         List<SysDept> list = sysDeptService.selectDeptInfo(sysDeptQueryVo);
-        // 查询用户角色列表（需要分页的查询）
+        // 查询用户部门列表（需要分页的查询）
         PageInfo<SysDept> pageInfo = new PageInfo<SysDept>(list);
         return Result.ok(pageInfo);
     }
 
-    @ApiOperation("添加角色信息")
+    @ApiOperation("添加部门信息")
     @PostMapping("insertDept")
     public Result insertDept(@RequestBody SysDeptMergeVo sysDeptMergeVo) {
         int flag = sysDeptService.insertDeptInfo(sysDeptMergeVo);
@@ -48,7 +48,7 @@ public class SysDeptController {
         return Result.fail();
     }
 
-    @ApiOperation("更新角色信息")
+    @ApiOperation("更新部门信息")
     @PostMapping("updateDept")
     public Result updateDept(@RequestBody SysDeptMergeVo sysDeptMergeVo) {
         int flag = sysDeptService.updateDeptInfo(sysDeptMergeVo);
@@ -59,7 +59,7 @@ public class SysDeptController {
     }
 
 
-    @ApiOperation("删除角色信息")
+    @ApiOperation("删除部门信息")
     @PostMapping("deleteDept")
     public Result deleteDept(@RequestBody List<String> deleteIds) {
         if (deleteIds.isEmpty()){

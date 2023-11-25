@@ -5,6 +5,7 @@ import com.atguigu.model.vo.SysMenuMergeVo;
 import com.atguigu.model.vo.SysMenuQueryVo;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.github.pagehelper.Page;
+import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
@@ -15,6 +16,8 @@ import java.util.List;
 * @createDate 2023-11-21 18:39:09
 * @Entity generator.domain.SysMenu
 */
+
+@Mapper
 public interface SysMenuMapper extends BaseMapper<SysMenu> {
 
 

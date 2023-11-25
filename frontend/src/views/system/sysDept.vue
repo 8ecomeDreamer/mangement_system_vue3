@@ -1,24 +1,24 @@
 /**
-* 系统管理 菜单管理
+* 系统管理 部门管理
 */
 <template>
   <div style="padding: 0 10px;">
     <!-- 搜索筛选 -->
     <el-form :inline="true" :model="formInline" class="user-search"  style="display: flex;justify-content: center;align-items: center;">
       <el-form-item label="" >
-        <el-input size="small" clearable v-model.trim="formInline.parentId" placeholder="输入上级路由" ></el-input>
+        <el-input size="small" clearable v-model.trim="formInline.id" placeholder="输入id" ></el-input>
+      </el-form-item>
+      <el-form-item label="" >
+        <el-input size="small" clearable v-model.trim="formInline.name" placeholder="输入部门名称" ></el-input>
       </el-form-item>
       <el-form-item label="">
-        <el-input size="small" clearable v-model.trim="formInline.name" placeholder="输入路由名称"></el-input>
+        <el-input size="small" clearable v-model.trim="formInline.parentId" placeholder="输入上级部门id"></el-input>
       </el-form-item>
       <el-form-item label="">
-        <el-input size="small" clearable v-model.trim="formInline.type" placeholder="输入路由类型"></el-input>
+        <el-input size="small" clearable v-model.trim="formInline.leader" placeholder="输入负责人"></el-input>
       </el-form-item>
       <el-form-item label="">
-        <el-input size="small" clearable v-model.trim="formInline.path" placeholder="输入路由地址"></el-input>
-      </el-form-item>
-      <el-form-item label="">
-        <el-input size="small" clearable v-model.trim="formInline.component" placeholder="输入组件路径"></el-input>
+        <el-input size="small" clearable v-model.trim="formInline.phone" placeholder="输入电话"></el-input>
       </el-form-item>
       <el-form-item>
         <el-button size="small" type="primary" icon="el-icon-search" @click="search">搜索</el-button>
@@ -31,35 +31,25 @@
       </el-table-column>
       <el-table-column align="center"  prop="id" label="id" width="50" >
       </el-table-column>
-      <el-table-column align="center"  prop="parentId" label="所属上级">
+      <el-table-column align="center"  prop="name" label="部门名称">
       </el-table-column>
-      <el-table-column align="center"  prop="name" label="名称">
+      <el-table-column align="center"  prop="parentId" label="上级部门id">
       </el-table-column>
-      <el-table-column align="center"  prop="sortValue" label="顺序">
+      <el-table-column align="center"  prop="treePath" label="树结构">
       </el-table-column>
-      <el-table-column align="center"  prop="type" label="类型">
-        <template slot-scope="scope">
-          <span>{{ scope.row.type === 0 ? '目录' :  (scope.row.type === 1 ? '菜单' : '按钮') }}</span>
-        </template>
+      <el-table-column align="center"  prop="sortValue" label="排序">
       </el-table-column>
-      <el-table-column align="center" sortable prop="path" label="路由地址" >
+      <el-table-column align="center"  prop="leader" label="负责人">
       </el-table-column>
-      <el-table-column
-        prop="action"
-        label="菜单图标"
-        align="center"
-      >
-        <template v-slot="scoped">
-          {{scoped.row.icon}}
-        </template>
+      <el-table-column align="center"  prop="treePath" label="树结构">
       </el-table-column>
-      <el-table-column align="center" sortable prop="component" label="组件路径" >
+      <el-table-column align="center"  prop="status" label="状态">
       </el-table-column>
-      <el-table-column align="center"  prop="perms" label="权限标识">
+      <el-table-column align="center"  prop="phone" label="电话">
       </el-table-column>
-      <el-table-column align="center" sortable prop="createTime" label="创建时间" width="140">
+      <el-table-column align="center"  prop="createTime" label="创建时间">
       </el-table-column>
-      <el-table-column align="center" sortable prop="updateTime" label="更新时间" width="140">
+      <el-table-column align="center"  prop="updateTime" label="更新时间">
       </el-table-column>
       <el-table-column label="操作" align="center"  min-width="120" >
         <template slot-scope="scope">
@@ -70,16 +60,31 @@
     </el-table>
     <!-- 分页组件 -->
     <Pagination v-bind:child-msg="pageparm" @callFather="callFather"></Pagination>
-<!--    <MenuForm :dialog="addDialogData" v-if="addDialogData.addVisabled" ></MenuForm>-->
-
+    <!--    <MenuForm :dialog="addDialogData" v-if="addDialogData.addVisabled" ></MenuForm>-->
+    <el-dialog :title="title" :visible.sync="editFormVisible" width="30%" @click='closeDialog("edit")'>
+      <el-form label-width="80px" ref="editForm" :model="editForm" :rules="rules">
+        <el-form-item label="部门名称" prop="name">
+          <el-input size="small" v-model="editForm.name" auto-complete="off" placeholder="请输入部门名称"></el-input>
+        </el-form-item>
+        <el-form-item label="电话" prop="roleCode">
+          <el-input size="small" v-model="editForm.phone" auto-complete="off" placeholder="请输入电话"></el-input>
+        </el-form-item>
+        <el-form-item label="负责人">
+          <el-input size="small" v-model="editForm.leader" auto-complete="off" placeholder="请输入负责人"></el-input>
+        </el-form-item>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button size="small" @click='closeDialog("edit")'>取消</el-button>
+        <el-button size="small" type="primary" :loading="loading" class="title" @click="submitForm('editForm')">保存</el-button>
+      </div>
+    </el-dialog>
   </div>
 </template>
-
+`
 <script>
 import Pagination from '@/components/common/Pagination.vue'
 import MenuForm from './component/MenuForm.vue'
-import { insertUserInfo, updateUserInfo } from '@/api/user'
-import { selectMenu,deleteMenu } from '@/api/menu'
+import { selectDept, deleteDept, insertDept,updateDept } from '@/api/dept'
 export default {
   data() {
     return {
@@ -96,7 +101,7 @@ export default {
         userName: '',
         name: '',
         phone: '',
-        description: '',
+        leader: '',
         deptId: '',
         postId: ''
       },
@@ -111,13 +116,13 @@ export default {
       isInsertForm:true,
       // rules表单验证
       rules: {
-        userName: [
-          { required: true, message: '请输入用户名', trigger: 'blur' }
-        ],
         name: [
-          { required: true, message: '请输入姓名', trigger: 'blur' }
+          { required: true, message: '请输入名称', trigger: 'blur' }
         ],
-        // roleId: [{ required: true, message: '请选择角色', trigger: 'blur' }],
+        roleCode: [
+          { required: true, message: '请输入部门编码', trigger: 'blur' }
+        ],
+        // roleId: [{ required: true, message: '请选择部门', trigger: 'blur' }],
         // userMobile: [
         //   { required: true, message: '请输入手机号', trigger: 'blur' },
         //   {
@@ -154,13 +159,13 @@ export default {
       },
       // 请求数据参数
       formInline: {
+        id:null,
         page: 0,
         limit: 10,
-        type: '',
-        path: '',
         name: '',
-        component: '',
-        parentId: ''
+        parentId: '',
+        leader: '',
+        phone: '',
       },
       //用户数据
       userData: [],
@@ -202,7 +207,7 @@ export default {
    */
   watch: {
     isInsertForm(val){
-      console.log(val)
+      // console.log(val)
     }
   },
 
@@ -221,7 +226,8 @@ export default {
     // 获取数据方法
     fetchData(){
       this.loading = true
-      selectMenu(this.formInline).then(res => {
+      console.log(this.formInline)
+      selectDept(this.formInline).then(res => {
         console.log(res)
         this.userData = res.data.list
         this.pageparm.total = res.data.total
@@ -292,21 +298,24 @@ export default {
     },
     //显示编辑界面
     handleEdit: function(index, row) {
-      this.addDialogData.addVisabled = true;
+      this.editFormVisible = true
       // console.log(this.rules)
       if (row != undefined && row != 'undefined') {
         // 修改 只有修改界面才需要id
-        this.addDialogData.title = '编辑'
-        this.addDialogData.menuId = row.id
-        this.addDialogData.menuType = 'edit'
+        console.log(row)
+        // debugger
+        this.editForm.id = row.id
+        this.editForm.name = row.name
+        this.editForm.roleCode = row.roleCode
+        this.editForm.leader = row.leader
+        this.isInsertForm = false
       } else {
-        this.addDialogData.title = '新增'
-        this.addDialogData.menuType = 'add'
+        this.isInsertForm = true
       }
     },
-    insertUserInfo(){
+    insertDeptInfo(){
       // 请求方法
-      insertUserInfo(this.editForm)
+      insertDept(this.editForm)
         .then(res => {
           console.log(res)
           this.editFormVisible = false
@@ -332,12 +341,13 @@ export default {
         this.isInsertForm = true
       })
     },
-    updateUserInfo(){
-      updateUserInfo(this.editForm)
+    updateDeptInfo(){
+      updateDept(this.editForm)
         .then(res => {
-          this.editFormVisible = false
           this.loading = false
           if (res.code === '200') {
+            this.editFormVisible = false
+            delete this.editForm.id
             this.fetchData(this.formInline)
             this.$message({
               type: 'success',
@@ -355,7 +365,7 @@ export default {
           this.loading = false
           this.$message.error('保存失败，请稍后再试！')
         }).finally(()=>{
-        delete this.editForm.id
+        // delete this.editForm.id
         this.isInsertForm = true
       })
     },
@@ -364,13 +374,11 @@ export default {
       this.$refs[editData].validate(valid => {
         if (valid) {
           if(this.isInsertForm) {
-            this.insertUserInfo()
-            // console.log('insertUserInfo')
-            // debugger
+            console.log('insertDeptInfo')
+            this.insertDeptInfo()
           } else {
-            this.updateUserInfo()
-            // console.log('updateUserInfo')
-            // debugger
+            console.log('updateDeptInfo')
+            this.updateDeptInfo()
           }
         } else {
           return false
@@ -467,30 +475,31 @@ export default {
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
-          debugger
-          deleteMenu(selectedData)
-            .then(res => {
-              console.log(res)
-              debugger
-              if (res.code === '200') {
-                this.$message({
-                  type: 'success',
-                  message: '数据已删除!'
-                })
-                this.fetchData(this.formInline)
-              } else {
-                this.$message({
-                  type: 'info',
-                  message: res.msg
-                })
-              }
-            })
-            .catch(err => {
-              console.log(err)
-              this.loading = false
-              this.$message.error('数据删除失败！')
-            })
-        })
+        // console.log(selectedData)
+        // debugger
+        deleteDept(selectedData)
+          .then(res => {
+            // console.log(res)
+            // debugger
+            if (res.code === '200') {
+              this.$message({
+                type: 'success',
+                message: '数据已删除!'
+              })
+              this.fetchData(this.formInline)
+            } else {
+              this.$message({
+                type: 'info',
+                message: res.msg
+              })
+            }
+          })
+          .catch(err => {
+            console.log(err)
+            this.loading = false
+            this.$message.error('数据删除失败！')
+          })
+      })
         .catch(() => {
           this.$message({
             type: 'error',
@@ -601,7 +610,7 @@ export default {
       }
       return tree
     },
-    // 选中菜单
+    // 选中部门
     changemenu(arr) {
       let change = []
       for (let i = 0; i < arr.length; i++) {
@@ -611,7 +620,7 @@ export default {
       }
       return change
     },
-    // 菜单权限-保存
+    // 部门权限-保存
     menuPermSave() {
       let parm = {
         userId: this.saveroleId,
@@ -711,7 +720,7 @@ export default {
 .user-search {
   margin-top: 20px;
 }
-.userRole {
+.userDept {
   width: 100%;
 }
 </style>

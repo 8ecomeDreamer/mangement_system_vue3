@@ -17,6 +17,10 @@ public class SysDept extends BaseEntity {
 
 	private static final long serialVersionUID = 1L;
 
+	@ApiModelProperty(value = "id")
+	@TableField("id")
+	private String id;
+
 	@ApiModelProperty(value = "部门名称")
 	@TableField("name")
 	private String name;

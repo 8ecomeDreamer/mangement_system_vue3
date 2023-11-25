@@ -55,10 +55,10 @@
         #{SysMenuMergeVo.type},
         #{SysMenuMergeVo.isBlank},
         <if test="SysMenuMergeVo.component != null and SysMenuMergeVo.component != ''">
-            ,component
+            ,#{SysMenuMergeVo.component}
         </if>
         <if test="SysMenuMergeVo.description != null and SysMenuMergeVo.description != ''">
-            ,description
+            ,#{SysMenuMergeVo.description}
         </if>
         )
     </insert>
@@ -77,7 +77,7 @@
                 ,component = #{SysMenuMergeVo.component},
             </if>
             <if test="SysMenuMergeVo.description != null and SysMenuMergeVo.description != ''">
-                phone = #{SysMenuMergeVo.description},
+                description = #{SysMenuMergeVo.description},
             </if>
         </set>
         WHERE id = #{SysMenuMergeVo.id}

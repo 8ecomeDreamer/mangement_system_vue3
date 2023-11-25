@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.atguigu.system.mapper.SysRoleMapper">
+
+    <resultMap id="BaseResultMap" type="com.atguigu.model.system.SysOperLog">
+            <id property="id" column="id" jdbcType="VARCHAR"/>
+            <result property="title" column="title" jdbcType="VARCHAR"/>
+            <result property="businessType" column="business_type" jdbcType="VARCHAR"/>
+            <result property="method" column="method" jdbcType="VARCHAR"/>
+            <result property="requestMethod" column="request_method" jdbcType="VARCHAR"/>
+            <result property="operatorType" column="operator_type" jdbcType="VARCHAR"/>
+            <result property="operName" column="oper_name" jdbcType="VARCHAR"/>
+            <result property="deptName" column="dept_name" jdbcType="VARCHAR"/>
+            <result property="operUrl" column="oper_url" jdbcType="VARCHAR"/>
+            <result property="operIp" column="oper_ip" jdbcType="VARCHAR"/>
+            <result property="operParam" column="oper_param" jdbcType="VARCHAR"/>
+            <result property="jsonResult" column="json_result" jdbcType="VARCHAR"/>
+            <result property="status" column="status" jdbcType="VARCHAR"/>
+            <result property="errorMsg" column="error_msg" jdbcType="VARCHAR"/>
+            <result property="operTime" column="oper_time" jdbcType="TIMESTAMP"/>
+            <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+            <result property="updateTime" column="update_time" jdbcType="TIMESTAMP"/>
+            <result property="isDeleted" column="is_deleted" jdbcType="TINYINT"/>
+    </resultMap>
+    
+    <sql id="Base_Column_List">
+        id,title,business_type,
+        method,request_method,operator_type,
+        oper_name,dept_name,oper_url,oper_ip
+          ,oper_param,json_result,status,error_msg
+          ,oper_time,create_time,update_time,is_deleted
+    </sql>
+
+ 
+
+    <select id="selectOperLog" resultType="com.atguigu.model.system.SysOperLog">
+        select
+            <include refid="Base_Column_List" />
+        from sys_oper_log
+        <where>
+            is_deleted = 0
+            <if test="sysOperLogQueryVo.title != null and sysOperLogQueryVo.title != ''  ">
+                and title = #{sysRoleQueryVo.title}
+            </if>
+            <if test="sysOperLogQueryVo.businessType != null and sysOperLogQueryVo.businessType != '' ">
+                and business_type like CONCAT('%',  #{sysRoleQueryVo.businessType} , '%')
+            </if>
+            <if test="sysOperLogQueryVo.method != null and sysOperLogQueryVo.method != '' ">
+                and method like CONCAT('%',  #{sysRoleQueryVo.method} , '%')
+            </if>
+            <if test="sysOperLogQueryVo.requestMethod != null and sysOperLogQueryVo.requestMethod != '' ">
+                and request_method like CONCAT('%',  #{sysRoleQueryVo.requestMethod} , '%')
+            </if>
+            <if test="sysOperLogQueryVo.operUrl != null and sysOperLogQueryVo.operUrl != '' ">
+                and oper_url like CONCAT('%',  #{sysRoleQueryVo.operUrl} , '%')
+            </if>
+            <if test="sysOperLogQueryVo.operIp != null and sysOperLogQueryVo.operIp != '' ">
+                and oper_ip like CONCAT('%',  #{sysRoleQueryVo.operIp} , '%')
+            </if>
+        </where>
+    </select>
+</mapper>

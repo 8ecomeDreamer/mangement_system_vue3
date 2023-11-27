@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.atguigu.system.mapper.SysRoleMapper">
+
+    <resultMap id="BaseResultMap" type="com.atguigu.model.system.SysRole">
+            <id property="id" column="id" jdbcType="BIGINT"/>
+            <result property="roleName" column="role_name" jdbcType="BIGINT"/>
+            <result property="roleCode" column="role_code" jdbcType="VARCHAR"/>
+            <result property="description" column="description" jdbcType="TINYINT"/>
+            <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+            <result property="updateTime" column="update_time" jdbcType="TIMESTAMP"/>
+            <result property="isDeleted" column="is_deleted" jdbcType="TINYINT"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,role_name,role_code,
+        description,create_time,update_time,
+        is_deleted
+    </sql>
+
+    <insert id="insertRoleInfo">
+        insert into
+        sys_role
+        (role_name,
+        role_code
+        <if test="sysRoleMergeVo.description != null and sysRoleMergeVo.description != ''">
+            ,description
+        </if>
+        )
+        values
+        (
+        #{sysRoleMergeVo.roleName},
+        #{sysRoleMergeVo.roleCode}
+        <if test="sysRoleMergeVo.description != null and sysRoleMergeVo.description != ''">
+            ,description
+        </if>
+        )
+    </insert>
+
+    <update id="updateRoleInfo">
+        UPDATE sys_role
+        <set>
+            role_name = #{sysRoleMergeVo.roleName},
+            role_code = #{sysRoleMergeVo.roleCode}
+            <if test="sysRoleMergeVo.description != null and sysRoleMergeVo.description != ''">
+                ,description = #{sysRoleMergeVo.description}
+            </if>
+        </set>
+        WHERE id = #{sysRoleMergeVo.id}
+    </update>
+
+    <update id="deleteRoleInfo" >
+        UPDATE sys_role
+        SET is_deleted = 1
+        WHERE id IN
+        <foreach collection="deleteIds" item="id" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </update>
+
+    <select id="selectRoleInfo" resultType="com.atguigu.model.system.SysRole">
+        select
+            <include refid="Base_Column_List" />
+        from sys_role
+        <where>
+            is_deleted = 0
+            <if test="sysRoleQueryVo.id != null  ">
+                and id = #{sysRoleQueryVo.id}
+            </if>
+            <if test="sysRoleQueryVo.roleName != null and sysRoleQueryVo.roleName != '' ">
+                and role_name like CONCAT('%',  #{sysRoleQueryVo.roleName} , '%')
+            </if>
+            <if test="sysRoleQueryVo.roleCode != null and sysRoleQueryVo.roleCode != '' ">
+                and role_code like CONCAT('%',  #{sysRoleQueryVo.roleCode} , '%')
+            </if>
+            <if test="sysRoleQueryVo.description != null and sysRoleQueryVo.description != '' ">
+                and description like CONCAT('%',  #{sysRoleQueryVo.description} , '%')
+            </if>
+        </where>
+    </select>
+</mapper>

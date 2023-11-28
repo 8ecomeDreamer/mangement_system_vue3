@@ -17,7 +17,7 @@ import java.util.List;
 
 @Mapper
 public interface SysOperLogMapper extends BaseMapper<SysOperLog> {
-    List<SysOperLog> selectOperLog(@Param("sysOperLogQueryVo") SysOperLogQueryVo sysOperLogQueryVo);
+//    List<SysOperLog> selectOperLog(@Param("sysOperLogQueryVo")  SysOperLogQueryVo sysOperLogQueryVo);
 
 }
 

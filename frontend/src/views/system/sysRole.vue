@@ -67,7 +67,7 @@
 <script>
 import Pagination from '@/components/common/Pagination.vue'
 import MenuForm from './component/MenuForm.vue'
-import { selectRole, deleteRole, insertRole,updateRole } from '@/api/role'
+import { selectRole, deleteRole, insertRole,updateRole } from '@/api/system/role'
 export default {
   data() {
     return {

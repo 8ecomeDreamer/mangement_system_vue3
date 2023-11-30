@@ -89,12 +89,12 @@ export const constantRoutes = [
         name: 'SysMenu',
         meta: { title: '菜单管理' }
       },
-      // {
-      //   path: 'sysRole',
-      //   component: () => import('@/views/system/sysRole.vue'),
-      //   name: 'SysRole',
-      //   meta: { title: '角色管理' }
-      // }
+      {
+        path: 'sysOperLog',
+        component: () => import('@/views/system/sysOperLog.vue'),
+        name: 'SysOperLog',
+        meta: { title: '日志管理' }
+      }
       // {
       //   path: 'menu1',
       //   component: () => import('@/views/nested/menu1/index'), // Parent router-view

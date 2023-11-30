@@ -32,8 +32,9 @@ public class SysOperLogController {
         PageHelper.startPage(sysOperLogQueryVo.getPage(), sysOperLogQueryVo.getLimit());
         List<SysOperLog> list = sysOperLogService.selectOperLog(sysOperLogQueryVo);
         // 查询用户角色列表（需要分页的查询）
-        PageInfo<SysOperLog> pageInfo = new PageInfo<SysOperLog>(list);
+        PageInfo<SysOperLog> pageInfo = new PageInfo<>(list);
         return Result.ok(pageInfo);
+//        return null;
     }
 
 }

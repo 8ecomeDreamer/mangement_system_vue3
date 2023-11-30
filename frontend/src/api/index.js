@@ -1,6 +1,6 @@
-import * as table from './table'
-import * as user from './table'
-import * as role from './role/role'
+import * as table from './system/table'
+import * as user from './system/table'
+import * as role from './system/role/role'
 
 
 export default {

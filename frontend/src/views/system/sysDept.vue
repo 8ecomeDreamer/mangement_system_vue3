@@ -84,7 +84,7 @@
 <script>
 import Pagination from '@/components/common/Pagination.vue'
 import MenuForm from './component/MenuForm.vue'
-import { selectDept, deleteDept, insertDept,updateDept } from '@/api/dept'
+import { selectDept, deleteDept, insertDept,updateDept } from '@/api/system/dept'
 export default {
   data() {
     return {

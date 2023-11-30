@@ -145,8 +145,8 @@
 // } from '../../api/userMG'
 import Pagination from '@/components/common/Pagination.vue'
 import MenuForm from './component/MenuForm.vue'
-import { deleteUserInfo, insertUserInfo, selectUserInfo, updateUserInfo } from '@/api/user'
-import { selectMenu,deleteMenu } from '@/api/menu'
+import { deleteUserInfo, insertUserInfo, selectUserInfo, updateUserInfo } from '@/api/system/user'
+import { selectMenu,deleteMenu } from '@/api/system/menu'
 export default {
   data() {
     return {

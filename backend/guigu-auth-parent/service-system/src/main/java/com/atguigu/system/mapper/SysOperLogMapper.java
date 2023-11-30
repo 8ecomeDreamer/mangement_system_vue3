@@ -10,14 +10,15 @@ import java.util.List;
 
 /**
 * @author Jim
-* @description 针对表【sys_oper_log(操作日志记录)】的数据库操作Mapper
-* @createDate 2023-11-25 16:52:41
+* @description 针对表【sys_menu(菜单表)】的数据库操作Mapper
+* @createDate 2023-11-21 18:39:09
 * @Entity generator.domain.SysOperLog
 */
 
 @Mapper
 public interface SysOperLogMapper extends BaseMapper<SysOperLog> {
-//    List<SysOperLog> selectOperLog(@Param("sysOperLogQueryVo")  SysOperLogQueryVo sysOperLogQueryVo);
+
+    List<SysOperLog> selectOperLog(@Param("sysOperLogQueryVo") SysOperLogQueryVo sysOperLogQueryVo);
 
 }
 

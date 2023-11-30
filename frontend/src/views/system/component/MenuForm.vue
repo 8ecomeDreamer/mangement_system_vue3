@@ -85,7 +85,7 @@
 <script>
 // import { getMenudetail, saveOrupdateMenu} from "@/api/servers/gdep_system";
 import SelectIcon from './selectIcon'
-import { selectMenu,insertMenu,updateMenu } from '@/api/menu'
+import { selectMenu,insertMenu,updateMenu } from '@/api/system/menu'
 export default {
   props: ["dialog"],
   components:

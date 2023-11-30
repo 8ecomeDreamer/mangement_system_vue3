@@ -28,7 +28,7 @@ public class SysOperLogServiceImpl extends ServiceImpl<SysOperLogMapper, SysOper
      * @param sysOperLogQueryVo 用户角色信息
      * @return List
      */
-    @Override
+//    @Override
     public List<SysOperLog> selectOperLog(SysOperLogQueryVo sysOperLogQueryVo) {
         return sysOperLogMapper.selectOperLog(sysOperLogQueryVo);
     }

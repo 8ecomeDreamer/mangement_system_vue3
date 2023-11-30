@@ -1,147 +1,97 @@
 /**
-* 系统管理 用户管理
+* 系统管理 部门管理
 */
 <template>
   <div style="padding: 0 10px;">
     <!-- 搜索筛选 -->
     <el-form :inline="true" :model="formInline" class="user-search"  style="display: flex;justify-content: center;align-items: center;">
-<!--      <el-form-item label="搜索：">-->
-<!--        <el-select size="small" v-model="formInline.isNoDeleted" placeholder="请选择">-->
-<!--          <el-option label="全部" value=""></el-option>-->
-<!--          <el-option label="" value=""></el-option>-->
-<!--          <el-option label="" value=""></el-option>-->
-<!--        </el-select>-->
-<!--      </el-form-item>-->
-      <el-form-item label="" >
-        <el-input size="small" clearable v-model="formInline.userName" placeholder="输入用户名" ></el-input>
-      </el-form-item>
-      <el-form-item label="">
-        <el-input size="small" clearable v-model="formInline.name" placeholder="输入真实姓名"></el-input>
-      </el-form-item>
-      <el-form-item label="">
-        <el-input size="small" clearable v-model="formInline.deptId" placeholder="输入部门id"></el-input>
-      </el-form-item>
-      <el-form-item label="">
-        <el-input size="small" clearable v-model="formInline.postId" placeholder="输入岗位id"></el-input>
-      </el-form-item>
-      <el-form-item>
-        <el-button size="small" type="primary" icon="el-icon-search" @click="search">搜索</el-button>
-        <el-button size="small" type="primary" icon="el-icon-plus" @click="handleEdit()">添加</el-button>
-<!--        <el-button size="small" type="primary" @click="handleunit()">部门设置</el-button>-->
-      </el-form-item>
+          <el-form-item label="">
+            <el-input size="small" clearable v-model.trim="formInline.title" placeholder="输入模块标题" ></el-input>
+          </el-form-item>
+          <el-form-item label="">
+            <el-input size="small" clearable v-model.trim="formInline.businessType" placeholder="输入业务类型" ></el-input>
+          </el-form-item>
+          <el-form-item label="">
+            <el-input size="small" clearable v-model.trim="formInline.method" placeholder="输入方法名称"></el-input>
+          </el-form-item>
+          <el-form-item label="">
+            <el-input size="small" clearable v-model.trim="formInline.requestMethod" placeholder="输入请求方式"></el-input>
+          </el-form-item>
+          <el-form-item label="">
+            <el-input size="small" clearable v-model.trim="formInline.operUrl" placeholder="输入请求URL"></el-input>
+          </el-form-item>
+          <el-form-item label="">
+            <el-input size="small" clearable v-model.trim="formInline.operIp" placeholder="输入主机地址"></el-input>
+          </el-form-item>
+          <el-form-item>
+            <el-button size="small" type="primary" icon="el-icon-search" @click="search">搜索</el-button>
+          </el-form-item>
     </el-form>
     <!--列表-->
     <el-table ref="basicTable" size="small" @selection-change="selectChange" :data="userData" highlight-current-row v-loading="loading" border element-loading-text="拼命加载中" style="width: 100%;">
-      <el-table-column align="center" type="selection" width="50">
+      <el-table-column align="center" type="selection" width="50" show-overflow-tooltip>
       </el-table-column>
-      <el-table-column align="center"  prop="id" label="id" width="50" >
+      <el-table-column align="center"  prop="id" label="id" width="50" show-overflow-tooltip>
       </el-table-column>
-      <el-table-column align="center"  prop="username" label="用户名">
+      <el-table-column align="center"  prop="title" label="模块标题" show-overflow-tooltip>
       </el-table-column>
-      <el-table-column align="center"  prop="name" label="姓名">
-      </el-table-column>
-      <el-table-column align="center"  prop="phone" label="手机号">
-      </el-table-column>
-      <el-table-column align="center" sortable prop="postId" label="岗位id" width="80">
-      </el-table-column>
-      <el-table-column align="center" sortable prop="deptId" label="部门id" width="80">
-      </el-table-column>
-      <el-table-column align="center"  prop="description" label="备注">
-      </el-table-column>
-      <el-table-column align="center" sortable prop="createTime" label="创建时间" width="140">
-      </el-table-column>
-      <el-table-column align="center" sortable prop="updateTime" label="更新时间" width="140">
-      </el-table-column>
-<!--      <el-table-column align="center"  prop="status" label="状态" width="50">-->
-<!--      </el-table-column>-->
-      <el-table-column label="操作" min-width="120" >
+      <el-table-column align="center"  prop="businessType" label="业务类型" show-overflow-tooltip>
         <template slot-scope="scope">
-          <el-button size="mini" @click="handleEdit(scope.id, scope.row)">编辑</el-button>
-          <el-button size="mini" type="danger" @click="deleteUser(scope.id, scope.row)">删除</el-button>
-<!--          <el-button size="mini" type="success" @click="resetpwd(scope.$index, scope.row)">重置密码</el-button>-->
-<!--          <el-button size="mini" type="success" @click="dataAccess(scope.$index, scope.row)">数据权限</el-button>-->
-<!--          <el-button size="mini" type="success" @click="offlineUser(scope.$index, scope.row)">下线</el-button>-->
-<!--          <el-button size="mini" type="success" @click="refreshCache(scope.$index, scope.row)">刷新缓存</el-button>-->
+          <span>{{chooseBusinessType(scope.row.businessType)}}</span>
         </template>
       </el-table-column>
+      <el-table-column align="center"  prop="method" label="方法名称" show-overflow-tooltip>
+      </el-table-column>
+      <el-table-column align="center"  prop="requestMethod" label="请求方式" show-overflow-tooltip>
+      </el-table-column>
+      <el-table-column align="center"  prop="operatorType" label="操作类别" show-overflow-tooltip>
+        <template slot-scope="scope">
+          <span>{{chooseOperatorType(scope.row.operatorType)}}</span>
+        </template>
+      </el-table-column>
+      <el-table-column align="center"  prop="operName" label="操作人员" show-overflow-tooltip>
+      </el-table-column>
+      <el-table-column align="center"  prop="deptName" label="部门名称" show-overflow-tooltip>
+      </el-table-column>
+      <el-table-column align="center"  prop="operUrl" label="请求URL" show-overflow-tooltip>
+      </el-table-column>
+      <el-table-column align="center"  prop="operIp" label="主机地址" show-overflow-tooltip>
+      </el-table-column>
+      <el-table-column align="center"  prop="operParam" label="请求参数" show-overflow-tooltip>
+      </el-table-column>
+      <el-table-column align="center"  prop="jsonResult" label="返回参数" show-overflow-tooltip>
+      </el-table-column>
+      <el-table-column align="center"  prop="status" label="操作状态" show-overflow-tooltip>
+        <template slot-scope="scope">
+          <span>{{scope.row.status === '0' ? '正常' : (scope.row.status === '1' ? '异常' : scope.row.status)}}</span>
+        </template>
+      </el-table-column>
+      <el-table-column align="center"  prop="errorMsg" label="错误消息" show-overflow-tooltip>
+      </el-table-column>
+      <el-table-column align="center"  prop="operTime" label="操作时间" show-overflow-tooltip>
+      </el-table-column>
+      <el-table-column align="center"  prop="createTime" label="创建时间" show-overflow-tooltip>
+      </el-table-column>
+      <el-table-column align="center"  prop="update_time" label="更新时间" show-overflow-tooltip>
+      </el-table-column>
+<!--      <el-table-column label="操作" align="center"  min-width="120" >-->
+<!--        <template slot-scope="scope">-->
+<!--          <el-button size="mini" @click="handleEdit(scope.id, scope.row)">编辑</el-button>-->
+<!--          <el-button size="mini" type="danger" @click="deleteMenu(scope.id, scope.row)">删除</el-button>-->
+<!--        </template>-->
+<!--      </el-table-column>-->
     </el-table>
     <!-- 分页组件 -->
     <Pagination v-bind:child-msg="pageparm" @callFather="callFather"></Pagination>
-    <!-- 编辑界面 -->
-    <el-dialog :title="title" :visible.sync="editFormVisible" width="30%" @click='closeDialog("edit")'>
-      <el-form label-width="80px" ref="editForm" :model="editForm" :rules="rules">
-        <el-form-item label="用户名" prop="userName">
-          <el-input size="small" v-model="editForm.userName" auto-complete="off" placeholder="请输入用户名"></el-input>
-        </el-form-item>
-        <el-form-item label="姓名" prop="userName">
-          <el-input size="small" v-model="editForm.name" auto-complete="off" placeholder="请输入真实姓名"></el-input>
-        </el-form-item>
-        <el-form-item label="手机号">
-          <el-input size="small" v-model="editForm.phone" auto-complete="off" placeholder="请输入手机号"></el-input>
-        </el-form-item>
-        <el-form-item label="岗位" >
-<!--          <el-input size="small" v-model="editForm.deptId" auto-complete="off" placeholder="请输入岗位id"></el-input>-->
-          <el-select size="small" v-model="editForm.deptId" placeholder="请输入岗位id">
-            <el-option label="1021" value="1021"></el-option>
-            <el-option label="1022" value="1022"></el-option>
-            <el-option label="1024" value="1024"></el-option>
-            <el-option label="1025" value="1025"></el-option>
-          </el-select>
-        </el-form-item>
-        <el-form-item label="部门" >
-<!--          <el-input size="small" v-model="editForm.postId" auto-complete="off" placeholder="请输入部门id"></el-input>-->
-          <el-select size="small" v-model="editForm.postId" placeholder="请输入部门id">
-            <el-option label="5" value="5"></el-option>
-            <el-option label="6" value="6"></el-option>
-          </el-select>
-        </el-form-item>
-        <el-form-item label="备注" >
-          <el-input size="small" v-model="editForm.description" auto-complete="off" placeholder="请输入用户名"></el-input>
-        </el-form-item>
-      </el-form>
-      <div slot="footer" class="dialog-footer">
-        <el-button size="small" @click='closeDialog("edit")'>取消</el-button>
-        <el-button size="small" type="primary" :loading="loading" class="title" @click="submitForm('editForm')">保存</el-button>
-      </div>
-    </el-dialog>
-    <!-- 数据权限 -->
-    <el-dialog title="数据权限" :visible.sync="dataAccessshow" width="30%" @click='closeDialog("perm")'>
-      <el-tree ref="tree" default-expand-all="" :data="UserDept" :props="defaultProps" :default-checked-keys="checkmenu" node-key="id" show-checkbox>
-      </el-tree>
-      <div slot="footer" class="dialog-footer">
-        <el-button size="small" @click='closeDialog("perm")'>取消</el-button>
-        <el-button size="small" type="primary" :loading="loading" class="title" @click="menuPermSave">保存</el-button>
-      </div>
-    </el-dialog>
-    <!-- 所属单位 -->
-    <el-dialog title="所属单位" :visible.sync="unitAccessshow" width="30%" @click='closeDialog("unit")'>
-      <el-tree ref="tree" default-expand-all="" :data="UserDept" :props="defaultProps" @check-change="handleClick" :default-checked-keys="checkmenu" node-key="id" show-checkbox check-strictly>
-      </el-tree>
-      <div slot="footer" class="dialog-footer">
-        <el-button size="small" @click='closeDialog("unit")'>取消</el-button>
-        <el-button size="small" type="primary" :loading="loading" class="title" @click="unitPermSave">保存</el-button>
-      </div>
-    </el-dialog>
+    <!--    <MenuForm :dialog="addDialogData" v-if="addDialogData.addVisabled" ></MenuForm>-->
   </div>
 </template>
-
+`
 <script>
-// 导入请求方法
-// import {
-//   userList,
-//   userSave,
-//   userDelete,
-//   userPwd,
-//   userExpireToken,
-//   userFlashCache,
-//   userLock,
-//   UserDeptTree,
-//   UserDeptSave,
-//   UserDeptdeptTree,
-//   UserChangeDept
-// } from '../../api/userMG'
 import Pagination from '@/components/common/Pagination.vue'
-import { deleteUserInfo, insertUserInfo, selectUserInfo, updateUserInfo } from '@/api/system/user'
+import MenuForm from './component/MenuForm.vue'
+import { selectDept, deleteDept, insertDept,updateDept } from '@/api/system/dept'
+import { selectOperLog } from '@/api/system/log'
 export default {
   data() {
     return {
@@ -158,7 +108,7 @@ export default {
         userName: '',
         name: '',
         phone: '',
-        description: '',
+        leader: '',
         deptId: '',
         postId: ''
       },
@@ -173,13 +123,13 @@ export default {
       isInsertForm:true,
       // rules表单验证
       rules: {
-        userName: [
-          { required: true, message: '请输入用户名', trigger: 'blur' }
-        ],
         name: [
-          { required: true, message: '请输入姓名', trigger: 'blur' }
+          { required: true, message: '请输入名称', trigger: 'blur' }
         ],
-        // roleId: [{ required: true, message: '请选择角色', trigger: 'blur' }],
+        roleCode: [
+          { required: true, message: '请输入部门编码', trigger: 'blur' }
+        ],
+        // roleId: [{ required: true, message: '请选择部门', trigger: 'blur' }],
         // userMobile: [
         //   { required: true, message: '请输入手机号', trigger: 'blur' },
         //   {
@@ -216,12 +166,16 @@ export default {
       },
       // 请求数据参数
       formInline: {
+        id:null,
         page: 0,
         limit: 10,
-        postId:'',
-        deptId: '',
         name: '',
-        userName: '',
+        title: '',
+        businessType: '',
+        method: '',
+        requestMethod: '',
+        operUrl: '',
+        operIp: '',
       },
       //用户数据
       userData: [],
@@ -241,11 +195,21 @@ export default {
         pageSize: 10,
         total: 10
       },
+      addDialogData: {
+        addVisabled: false,
+        title: '新增',
+        columnVisiable: false,
+        menuList: [],
+        menuType: 'add',
+        menuId: '',
+        menuName: ''
+      },
     }
   },
   // 注册组件
   components: {
-    Pagination
+    Pagination,
+    MenuForm
   },
 
   /**
@@ -253,7 +217,7 @@ export default {
    */
   watch: {
     isInsertForm(val){
-      console.log(val)
+      // console.log(val)
     }
   },
 
@@ -269,12 +233,41 @@ export default {
    * 里面的方法只有被调用才会执行
    */
   methods: {
+    chooseBusinessType(val){
+      switch (val){
+        case '0':
+          return '其它'
+        case '1':
+          return '新增'
+        case '2':
+          return '修改'
+        case '3':
+          return '删除'
+        default:
+          return  val
+      }
+    },
+    chooseOperatorType(val){
+      switch (val){
+        case '0':
+          return '其它'
+        case '1':
+          return '后台用户'
+        case '2':
+          return '手机端用户'
+        default:
+          return  val
+      }
+    },
     // 获取数据方法
     fetchData(){
       this.loading = true
-      selectUserInfo(this.formInline).then(res => {
+      console.log(this.formInline)
+      selectOperLog(this.formInline).then(res => {
         console.log(res)
-        this.userData = res.data
+        this.userData = res.data.list
+        this.pageparm.total = res.data.total
+        // this.
       }).finally(()=>{
         this.loading = false
       })
@@ -285,8 +278,26 @@ export default {
       this.formInline.limit = parm.pageSize
       this.fetchData(this.formInline)
     },
+    switchFormType(val){
+      // 0:目录,1:菜单,2:按钮
+      switch (val){
+        case '目录':
+          return 0
+        case '菜单':
+          return 1
+        case '按钮':
+          return 2
+        default:
+          return null
+      }
+    },
     //搜索事件
     search() {
+      // 深拷贝 不影响原对象
+      const params = JSON.parse(JSON.stringify(this.formInline))
+      // params.type = this.switchFormType(this.formInline.type)
+      this.formInline.type = this.switchFormType(this.formInline.type)
+      // console.log(this.formInline)
       this.fetchData(this.formInline)
     },
     // 修改type
@@ -326,46 +337,21 @@ export default {
       this.editFormVisible = true
       // console.log(this.rules)
       if (row != undefined && row != 'undefined') {
-        // 规则不为必填
-        this.isInsertForm = false
-        const userNameObj = { required: false, message: '请输入用户名', trigger: 'blur' }
-        const NameObj = { required: false, message: '请输入姓名', trigger: 'blur' }
-        this.$set(this.rules, 'userName', userNameObj)
-        this.$set(this.rules, 'name', NameObj)
         // 修改 只有修改界面才需要id
-        this.title = '修改用户'
+        console.log(row)
+        // debugger
         this.editForm.id = row.id
-        this.editForm.userName = row.userName
         this.editForm.name = row.name
-        this.editForm.phone = row.phone
-        this.editForm.description = row.description
-        this.editForm.deptId = row.deptId
-        this.editForm.postId = row.postId
-        // 修改接口
-        // this.submitForm()
+        this.editForm.roleCode = row.roleCode
+        this.editForm.leader = row.leader
+        this.isInsertForm = false
       } else {
-        // 规则为必填
         this.isInsertForm = true
-        const userNameObj = { required: true, message: '请输入用户名', trigger: 'blur' }
-        const NameObj = { required: true, message: '请输入姓名', trigger: 'blur' }
-        this.$set(this.rules, 'userName', userNameObj)
-        this.$set(this.rules, 'name', NameObj)
-        // 添加
-        this.title = '添加用户'
-        this.editForm.userName = ''
-        this.editForm.name = ''
-        this.editForm.phone = ''
-        this.editForm.description = ''
-        this.editForm.deptId = ''
-        this.editForm.postId = ''
-        // 添加接口
       }
-      // this.isInsertForm = true
-
     },
-    insertUserInfo(){
+    insertDeptInfo(){
       // 请求方法
-      insertUserInfo(this.editForm)
+      insertDept(this.editForm)
         .then(res => {
           console.log(res)
           this.editFormVisible = false
@@ -388,15 +374,16 @@ export default {
           this.loading = false
           this.$message.error('保存失败，请稍后再试！')
         }).finally(()=>{
-          this.isInsertForm = true
+        this.isInsertForm = true
       })
     },
-    updateUserInfo(){
-      updateUserInfo(this.editForm)
+    updateDeptInfo(){
+      updateDept(this.editForm)
         .then(res => {
-          this.editFormVisible = false
           this.loading = false
           if (res.code === '200') {
+            this.editFormVisible = false
+            delete this.editForm.id
             this.fetchData(this.formInline)
             this.$message({
               type: 'success',
@@ -414,22 +401,20 @@ export default {
           this.loading = false
           this.$message.error('保存失败，请稍后再试！')
         }).finally(()=>{
-          delete this.editForm.id
-          this.isInsertForm = true
-        })
+        // delete this.editForm.id
+        this.isInsertForm = true
+      })
     },
     // 编辑、添加提交方法
     submitForm(editData) {
       this.$refs[editData].validate(valid => {
         if (valid) {
           if(this.isInsertForm) {
-           this.insertUserInfo()
-            // console.log('insertUserInfo')
-            // debugger
+            console.log('insertDeptInfo')
+            this.insertDeptInfo()
           } else {
-            this.updateUserInfo()
-            // console.log('updateUserInfo')
-            // debugger
+            console.log('updateDeptInfo')
+            this.updateDeptInfo()
           }
         } else {
           return false
@@ -512,7 +497,7 @@ export default {
       }
     },
     // 删除用户
-    deleteUser(index, row) {
+    deleteMenu(index, row) {
       const selectedData = this.$refs.basicTable.selection.map(el => el.id)
       if (selectedData.length <= 0){
         this.$message({
@@ -525,42 +510,36 @@ export default {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'warning'
+      }).then(() => {
+        // console.log(selectedData)
+        // debugger
+        deleteDept(selectedData)
+          .then(res => {
+            // console.log(res)
+            // debugger
+            if (res.code === '200') {
+              this.$message({
+                type: 'success',
+                message: '数据已删除!'
+              })
+              this.fetchData(this.formInline)
+            } else {
+              this.$message({
+                type: 'info',
+                message: res.msg
+              })
+            }
+          })
+          .catch(err => {
+            console.log(err)
+            this.loading = false
+            this.$message.error('数据删除失败！')
+          })
       })
-        .then(() => {
-          // 删除
-          // deleteUserInfo(JSON.stringify(selectedData)).then(res => {
-          //   if (res.code === '200') {
-          //     this.$message({
-          //       type: 'success',
-          //       message: '数据已删除!'
-          //     })
-          //   }
-          // })
-          deleteUserInfo(selectedData)
-            .then(res => {
-              if (res.code === '200') {
-                this.$message({
-                  type: 'success',
-                  message: '数据已删除!'
-                })
-                this.fetchData(this.formInline)
-              } else {
-                this.$message({
-                  type: 'info',
-                  message: res.msg
-                })
-              }
-            })
-            .catch(err => {
-              console.log(err)
-              this.loading = false
-              this.$message.error('数据删除失败，请稍后再试！')
-            })
-        })
         .catch(() => {
           this.$message({
-            type: 'info',
-            message: '已取消删除！'
+            type: 'error',
+            message: '数据删除失败！'
           })
         })
     },
@@ -667,7 +646,7 @@ export default {
       }
       return tree
     },
-    // 选中菜单
+    // 选中部门
     changemenu(arr) {
       let change = []
       for (let i = 0; i < arr.length; i++) {
@@ -677,7 +656,7 @@ export default {
       }
       return change
     },
-    // 菜单权限-保存
+    // 部门权限-保存
     menuPermSave() {
       let parm = {
         userId: this.saveroleId,
@@ -777,7 +756,7 @@ export default {
 .user-search {
   margin-top: 20px;
 }
-.userRole {
+.userDept {
   width: 100%;
 }
 </style>

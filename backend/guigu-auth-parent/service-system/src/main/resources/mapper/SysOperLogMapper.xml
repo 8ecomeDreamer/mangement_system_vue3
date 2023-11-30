@@ -2,7 +2,7 @@
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.atguigu.system.mapper.SysRoleMapper">
+<mapper namespace="com.atguigu.system.mapper.SysOperLogMapper">
 
     <resultMap id="BaseResultMap" type="com.atguigu.model.system.SysOperLog">
             <id property="id" column="id" jdbcType="VARCHAR"/>
@@ -42,23 +42,25 @@
         <where>
             is_deleted = 0
             <if test="sysOperLogQueryVo.title != null and sysOperLogQueryVo.title != ''  ">
-                and title = #{sysRoleQueryVo.title}
+                and title = #{sysOperLogQueryVo.title}
             </if>
             <if test="sysOperLogQueryVo.businessType != null and sysOperLogQueryVo.businessType != '' ">
-                and business_type like CONCAT('%',  #{sysRoleQueryVo.businessType} , '%')
+                and business_type like CONCAT('%',  #{sysOperLogQueryVo.businessType} , '%')
             </if>
             <if test="sysOperLogQueryVo.method != null and sysOperLogQueryVo.method != '' ">
-                and method like CONCAT('%',  #{sysRoleQueryVo.method} , '%')
+                and method like CONCAT('%',  #{sysOperLogQueryVo.method} , '%')
             </if>
             <if test="sysOperLogQueryVo.requestMethod != null and sysOperLogQueryVo.requestMethod != '' ">
-                and request_method like CONCAT('%',  #{sysRoleQueryVo.requestMethod} , '%')
+                and request_method like CONCAT('%',  #{sysOperLogQueryVo.requestMethod} , '%')
             </if>
             <if test="sysOperLogQueryVo.operUrl != null and sysOperLogQueryVo.operUrl != '' ">
-                and oper_url like CONCAT('%',  #{sysRoleQueryVo.operUrl} , '%')
+                and oper_url like CONCAT('%',  #{sysOperLogQueryVo.operUrl} , '%')
             </if>
             <if test="sysOperLogQueryVo.operIp != null and sysOperLogQueryVo.operIp != '' ">
-                and oper_ip like CONCAT('%',  #{sysRoleQueryVo.operIp} , '%')
+                and oper_ip like CONCAT('%',  #{sysOperLogQueryVo.operIp} , '%')
             </if>
         </where>
     </select>
+
+
 </mapper>

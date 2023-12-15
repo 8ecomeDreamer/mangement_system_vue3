@@ -54,7 +54,6 @@ export const constantRoutes = [
       meta: { title: 'Dashboard', icon: 'dashboard' }
     }]
   },
-
   {
     path: '/system',
     component: Layout,
@@ -95,49 +94,50 @@ export const constantRoutes = [
         name: 'SysOperLog',
         meta: { title: '日志管理' }
       }
-      // {
-      //   path: 'menu1',
-      //   component: () => import('@/views/nested/menu1/index'), // Parent router-view
-      //   name: 'Menu1',
-      //   meta: { title: 'Menu1' },
-      //   children: [
-      //     {
-      //       path: 'menu1-1',
-      //       component: () => import('@/views/nested/menu1/menu1-1'),
-      //       name: 'Menu1-1',
-      //       meta: { title: 'Menu1-1' }
-      //     },
-      //     {
-      //       path: 'menu1-2',
-      //       component: () => import('@/views/nested/menu1/menu1-2'),
-      //       name: 'Menu1-2',
-      //       meta: { title: 'Menu1-2' },
-      //       children: [
-      //         {
-      //           path: 'menu1-2-1',
-      //           component: () => import('@/views/nested/menu1/menu1-2/menu1-2-1'),
-      //           name: 'Menu1-2-1',
-      //           meta: { title: 'Menu1-2-1' }
-      //         },
-      //         {
-      //           path: 'menu1-2-2',
-      //           component: () => import('@/views/nested/menu1/menu1-2/menu1-2-2'),
-      //           name: 'Menu1-2-2',
-      //           meta: { title: 'Menu1-2-2' }
-      //         }
-      //       ]
-      //     },
-      //     {
-      //       path: 'menu1-3',
-      //       component: () => import('@/views/nested/menu1/menu1-3'),
-      //       name: 'Menu1-3',
-      //       meta: { title: 'Menu1-3' }
-      //     }
-      //   ]
-      // },
     ]
   },
-
+  {
+    path: '/OA',
+    component: Layout,
+    redirect: '/OA/sysUser',
+    name: 'OA',
+    meta: {
+      title: 'OA办公',
+      icon: 'example'
+    },
+    children: [
+      {
+        path: 'sysUser',
+        component: () => import('@/views/system/sysUser.vue'),
+        name: 'SysUser',
+        meta: { title: '工作流1' }
+      },
+      {
+        path: 'sysRole',
+        component: () => import('@/views/system/sysRole.vue'),
+        name: 'SysRole',
+        meta: { title: '工作流2' }
+      },
+      // {
+      //   path: 'sysDept',
+      //   component: () => import('@/views/system/sysDept.vue'),
+      //   name: 'SysDept',
+      //   meta: { title: '部门管理' }
+      // },
+      // {
+      //   path: 'sysMenu',
+      //   component: () => import('@/views/system/sysMenu.vue'),
+      //   name: 'SysMenu',
+      //   meta: { title: '菜单管理' }
+      // },
+      // {
+      //   path: 'sysOperLog',
+      //   component: () => import('@/views/system/sysOperLog.vue'),
+      //   name: 'SysOperLog',
+      //   meta: { title: '日志管理' }
+      // }
+    ]
+  },
   // {
   //   path: '/example',
   //   component: Layout,

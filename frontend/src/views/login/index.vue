@@ -1,54 +1,66 @@
 <template>
   <div class="login-container">
-    <el-form ref="loginForm" :model="loginForm" :rules="loginRules" class="login-form" auto-complete="on" label-position="left">
-
+    <div class="waveBg">
+      <img src="@/assets/login/svgwave_login.png" class="img"  alt="背景底图"/>
+    </div>
+<!--    <div class="bg">-->
+<!--      <img src="@/assets/login/undraw_login_2.png" class="img" alt="背景图" />-->
+<!--    </div>-->
+    <div class="loginContent">
+<!--      <img src="@/assets/icons/svg/wechat.svg" class="img" alt="图标" />-->
       <div class="title-container">
-        <h3 class="title">Login Form</h3>
+        <h3 class="title">后台管理系统</h3>
       </div>
+      <el-tabs class="tabs" type="border-card">
+        <el-tab-pane label="账号密码登录">
+          <div v-show="true">
+            <el-form ref="loginForm" :model="loginForm" :rules="loginRules" class="login-form" auto-complete="on" label-position="left">
+              <el-form-item prop="username">
+                <span class="svg-container">
+                  <svg-icon icon-class="user" />
+                </span>
+                <el-input
+                  ref="username"
+                  v-model="loginForm.username"
+                  placeholder="Username"
+                  name="username"
+                  type="text"
+                  tabindex="1"
+                  auto-complete="on"
+                />
+              </el-form-item>
 
-      <el-form-item prop="username">
-        <span class="svg-container">
-          <svg-icon icon-class="user" />
-        </span>
-        <el-input
-          ref="username"
-          v-model="loginForm.username"
-          placeholder="Username"
-          name="username"
-          type="text"
-          tabindex="1"
-          auto-complete="on"
-        />
-      </el-form-item>
+              <el-form-item prop="password">
+                <span class="svg-container">
+                  <svg-icon icon-class="password" />
+                </span>
+                <el-input
+                  :key="passwordType"
+                  ref="password"
+                  v-model="loginForm.password"
+                  :type="passwordType"
+                  placeholder="Password"
+                  name="password"
+                  tabindex="2"
+                  auto-complete="on"
+                  @keyup.enter.native="handleLogin"
+                />
+                <span class="show-pwd" @click="showPwd">
+                  <svg-icon :icon-class="passwordType === 'password' ? 'eye' : 'eye-open'" />
+                </span>
+              </el-form-item>
+              <el-button :loading="loading" type="primary" style="width:100%;margin-bottom:30px;" @click.native.prevent="handleLogin">登录</el-button>
+              <div class="tips">
+                <span style="margin-right:20px;">username: admin</span>
+                <span> password: any</span>
+              </div>
+            </el-form>
+          </div>
+        </el-tab-pane>
+        <el-tab-pane label="手机号登录">三方登录</el-tab-pane>
+      </el-tabs>
+    </div>
 
-      <el-form-item prop="password">
-        <span class="svg-container">
-          <svg-icon icon-class="password" />
-        </span>
-        <el-input
-          :key="passwordType"
-          ref="password"
-          v-model="loginForm.password"
-          :type="passwordType"
-          placeholder="Password"
-          name="password"
-          tabindex="2"
-          auto-complete="on"
-          @keyup.enter.native="handleLogin"
-        />
-        <span class="show-pwd" @click="showPwd">
-          <svg-icon :icon-class="passwordType === 'password' ? 'eye' : 'eye-open'" />
-        </span>
-      </el-form-item>
-
-      <el-button :loading="loading" type="primary" style="width:100%;margin-bottom:30px;" @click.native.prevent="handleLogin">Login</el-button>
-
-      <div class="tips">
-        <span style="margin-right:20px;">username: admin</span>
-        <span> password: any</span>
-      </div>
-
-    </el-form>
   </div>
 </template>
 
@@ -175,26 +187,89 @@ $cursor: #fff;
 <style lang="scss" scoped>
 $bg:#2d3a4b;
 $dark_gray:#889aa4;
-$light_gray:#eee;
+$light_gray: #eee;
+
+.waveBg{
+  //height: 200px;
+  //width: 100%;
+  height: 30%;
+  width: 100%;
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  z-index: -1000;
+
+  .img{
+    //background: #5a5e66;
+    width: 100%;
+    height: 100%;
+    //object-fit: cover;
+  }
+}
+.bg{
+  display: none;
+  position: fixed;
+  //height: 100%;
+  left: 0;
+  top: 0;
+  z-index: -100;
+  width: 600px;
+  height: 400px;
+  //background: skyblue;
+
+  .img{
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+  }
+}
+
+.loginContent{
+  height: 100%;
+  width: 100%;
+  margin: 0 auto;
+  padding-top: 20px;
+
+  .tabs{
+    width: 30%;
+    height: 30%;
+    margin: 0 auto;
+    //min-width: 300px;
+    //min-height: 300px;
+  }
+
+  &::before{
+    content: '';
+    position: absolute;
+    top:0;right:0;bottom:0;left:0;
+    filter: blur(3px);
+    //margin:-21px;
+    //background: url('./img/timg.jpg') no-repeat 100% 100%;
+    //background-size: cover;
+    opacity: .8;
+  }
+}
+
 
 .login-container {
   min-height: 100%;
   width: 100%;
-  background-color: $bg;
+  //background-color: $bg;
   overflow: hidden;
 
   .login-form {
     position: relative;
     width: 520px;
     max-width: 100%;
-    padding: 160px 35px 0;
+    //padding: 10px 35px;
+    //padding: 160px 35px 0;
     margin: 0 auto;
     overflow: hidden;
   }
 
   .tips {
     font-size: 14px;
-    color: #fff;
+    //color: #fff;
     margin-bottom: 10px;
 
     span {
@@ -217,8 +292,8 @@ $light_gray:#eee;
 
     .title {
       font-size: 26px;
-      color: $light_gray;
-      margin: 0px auto 40px auto;
+      //color: $light_gray;
+      //margin: 0px auto 40px auto;
       text-align: center;
       font-weight: bold;
     }
